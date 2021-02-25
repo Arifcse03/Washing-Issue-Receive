@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<pageDefinition xmlns="http://xmlns.oracle.com/adfm/uimodel"
+                version="11.1.1.62.29" id="EditPGPageDef"
+                Package="view.pageDefs">
+  <parameters/>
+  <executables>
+    <variableIterator id="variables"/>
+    <iterator Binds="HeaderVO1" RangeSize="25" DataControl="MainAMDataControl"
+              id="HeaderVO1Iterator"/>
+     <iterator Binds="papulateSizeVo1" RangeSize="1000"
+              DataControl="MainAMDataControl" id="papulateSizeVo1Iterator"/>
+    <iterator Binds="similarPopSizeVO1" RangeSize="1000"
+              DataControl="MainAMDataControl" id="similarPopSizeVO1Iterator"/>
+    <searchRegion Binds="similarPopSizeVO1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer"
+                  id="similarPopSizeVO1Query"/>
+    <iterator Binds="FillBposVO1" RangeSize="1000" DataControl="MainAMDataControl"
+              id="FillBposVO1Iterator"/>
+    <searchRegion Binds="FillBposVO1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer"
+                  id="FillBposVO1Query"/>
+    <iterator Binds="NewHeaderVO1" RangeSize="25"
+              DataControl="MainAMDataControl" id="NewHeaderVO1Iterator"/>
+    <searchRegion Binds="HeaderVO1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer"
+                  id="HeaderVO1Query"/>
+    <iterator Binds="MNJ_ISSUE_REC_WASH_REC_L_VO1" RangeSize="25"
+              DataControl="MainAMDataControl"
+              id="MNJ_ISSUE_REC_WASH_REC_L_VO1Iterator"/>
+    <searchRegion Binds="MNJ_ISSUE_REC_WASH_REC_L_VO1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer"
+                  id="MNJ_ISSUE_REC_WASH_REC_L_VO1Query"/>
+    <iterator Binds="MNJ_ISSUEREC_WASH_REC_SIZE_VO1" RangeSize="25"
+              DataControl="MainAMDataControl"
+              id="MNJ_ISSUEREC_WASH_REC_SIZE_VO1Iterator"/>
+    <searchRegion Binds="MNJ_ISSUEREC_WASH_REC_SIZE_VO1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer"
+                  id="MNJ_ISSUEREC_WASH_REC_SIZE_VO1Query"/>
+    <iterator Binds="MNJ_ISSUE_REC_WASH_DEL_L_VO1" RangeSize="25"
+              DataControl="MainAMDataControl"
+              id="MNJ_ISSUE_REC_WASH_DEL_L_VO1Iterator"/>
+    <searchRegion Binds="MNJ_ISSUE_REC_WASH_DEL_L_VO1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer"
+                  id="MNJ_ISSUE_REC_WASH_DEL_L_VO1Query"/>
+    <iterator Binds="MNJ_ISSUEREC_WASH_DEL_SIZE_VO1" RangeSize="25"
+              DataControl="MainAMDataControl"
+              id="MNJ_ISSUEREC_WASH_DEL_SIZE_VO1Iterator"/>
+    <searchRegion Binds="MNJ_ISSUEREC_WASH_DEL_SIZE_VO1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer"
+                  id="MNJ_ISSUEREC_WASH_DEL_SIZE_VO1Query"/>
+    <iterator Binds="Receipt_Challan_LOV1" RangeSize="25"
+              DataControl="MainAMDataControl"
+              id="Receipt_Challan_LOV1Iterator"/>
+    <searchRegion Binds="Receipt_Challan_LOV1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer"
+                  id="Receipt_Challan_LOV1Query"/>
+    <searchRegion Binds="papulateSizeVo1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer"
+                  id="papulateSizeVo11Query"/>
+  </executables>
+  <bindings>
+    <attributeValues IterBinding="HeaderVO1Iterator" id="Attribute1">
+      <AttrNames>
+        <Item Value="Attribute1"/>
+      </AttrNames>
+    </attributeValues>
+    <tree IterBinding="papulateSizeVo1Iterator" id="papulateSizeVo1">
+      <nodeDefinition DefName="mnj.mfg.model.lov.papulateSizeVo"
+                      Name="papulateSizeVo10">
+        <AttrNames>
+       
+          <Item Value="Flag" Binds="Flag"/>
+         
+          <Item Value="SizeVal"/>
+        
+          <Item Value="Style"/>
+          <Item Value="FlagSize" Binds="FlagSize"/>
+          <Item Value="ReceivedQty"/>
+          <Item Value="DeleveredQuantity"/>
+          <Item Value="BalanceQty"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <button IterBinding="papulateSizeVo1Iterator" id="Flag"
+            DTSupportsMRU="false" StaticList="true">
+      <AttrNames>
+        <Item Value="Flag"/>
+      </AttrNames>
+      <ValueList>
+        <Item Value="Y"/>
+        <Item Value="N"/>
+      </ValueList>
+    </button>
+    <methodAction id="FillRollLines"
+                  InstanceName="MainAMDataControl.dataProvider"
+                  DataControl="MainAMDataControl" RequiresUpdateModel="true"
+                  Action="invokeMethod" MethodName="FillRollLines"
+                  IsViewObjectMethod="false"/>
+    <methodAction id="setRollwhereClause"
+                  InstanceName="MainAMDataControl.dataProvider"
+                  DataControl="MainAMDataControl" RequiresUpdateModel="true"
+                  Action="invokeMethod" MethodName="setRollwhereClause"
+                  IsViewObjectMethod="false"/>
+    <tree IterBinding="similarPopSizeVO1Iterator" id="similarPopSizeVO1">
+      <nodeDefinition DefName="mnj.mfg.model.lov.similarPopSizeVO"
+                      Name="similarPopSizeVO10">
+        <AttrNames>
+          <Item Value="Attribute1"/>
+          <Item Value="SizeInseam"/>
+          <Item Value="Quantity"/>
+          <Item Value="HeaderId"/>
+          <Item Value="SFLAG" Binds="SFLAG"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <button IterBinding="similarPopSizeVO1Iterator" id="SFLAG"
+            DTSupportsMRU="false" StaticList="true">
+      <AttrNames>
+        <Item Value="SFLAG"/>
+      </AttrNames>
+      <ValueList>
+        <Item Value="Y"/>
+        <Item Value="N"/>
+      </ValueList>
+    </button>
+    <methodAction id="selectAllLines"
+                  InstanceName="MainAMDataControl.dataProvider"
+                  DataControl="MainAMDataControl" RequiresUpdateModel="true"
+                  Action="invokeMethod" MethodName="selectAllLines"
+                  IsViewObjectMethod="false">
+      <NamedData NDName="flag" NDType="java.lang.String"/>
+    </methodAction>
+    <methodAction id="selectAllLines1"
+                  InstanceName="MainAMDataControl.dataProvider"
+                  DataControl="MainAMDataControl" RequiresUpdateModel="true"
+                  Action="invokeMethod" MethodName="selectAllLines1"
+                  IsViewObjectMethod="false">
+      <NamedData NDName="flag" NDType="java.lang.String"/>
+    </methodAction>
+    <methodAction id="FillRollLines1"
+                  InstanceName="MainAMDataControl.dataProvider"
+                  DataControl="MainAMDataControl" RequiresUpdateModel="true"
+                  Action="invokeMethod" MethodName="FillRollLines1"
+                  IsViewObjectMethod="false"/>
+    <methodAction id="setRollwhereClause1"
+                  InstanceName="MainAMDataControl.dataProvider"
+                  DataControl="MainAMDataControl" RequiresUpdateModel="true"
+                  Action="invokeMethod" MethodName="setRollwhereClause1"
+                  IsViewObjectMethod="false"/>
+    <tree IterBinding="FillBposVO1Iterator" id="FillBposVO1">
+      <nodeDefinition DefName="mnj.mfg.model.lov.FillBposVO"
+                      Name="FillBposVO10">
+        <AttrNames>
+          <Item Value="BpoNo"/>
+           <Item Value="Color"/>
+           <Item Value="Flag" Binds="Flag1"/>
+          <Item Value="FlagNew" Binds="FlagNew"/>
+           <Item Value="StnNumber"/>
+          <Item Value="Season"/>
+          <Item Value="ProductionType"/>
+          <Item Value="Quantity"/>
+          <Item Value="Style"/>
+          <Item Value="Buyer"/>
+          <Item Value="WashUnwash"/>
+          <Item Value="CurrentStyle"/>
+          <Item Value="CurrentSeason"/>
+          <Item Value="IssueQty"/>
+          <Item Value="Unit"/>
+          <Item Value="CurrentBpo"/>
+          <Item Value="FinishGoodsColor"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <button IterBinding="FillBposVO1Iterator" id="Flag1" DTSupportsMRU="false"
+            StaticList="true">
+      <AttrNames>
+        <Item Value="Flag"/>
+      </AttrNames>
+      <ValueList>
+        <Item Value="Y"/>
+        <Item Value="N"/>
+      </ValueList>
+    </button>
+    <methodAction id="FillRollLinesBPO"
+                  InstanceName="MainAMDataControl.dataProvider"
+                  DataControl="MainAMDataControl" RequiresUpdateModel="true"
+                  Action="invokeMethod" MethodName="FillRollLinesBPO"
+                  IsViewObjectMethod="false"/>
+    <methodAction id="setRollwhereClauseBPO"
+                  InstanceName="MainAMDataControl.dataProvider"
+                  DataControl="MainAMDataControl" RequiresUpdateModel="true"
+                  Action="invokeMethod" MethodName="setRollwhereClauseBPO"
+                  IsViewObjectMethod="false"/>
+    <button IterBinding="FillBposVO1Iterator" id="FlagNew"
+            DTSupportsMRU="false" StaticList="true">
+      <AttrNames>
+        <Item Value="FlagNew"/>
+      </AttrNames>
+      <ValueList>
+        <Item Value="Y"/>
+        <Item Value="N"/>
+      </ValueList>
+    </button>
+    <button IterBinding="papulateSizeVo1Iterator" id="FlagSize"
+            DTSupportsMRU="false" StaticList="true">
+      <AttrNames>
+        <Item Value="FlagSize"/>
+      </AttrNames>
+      <ValueList>
+        <Item Value="Y"/>
+        <Item Value="N"/>
+      </ValueList>
+    </button>
+    <attributeValues IterBinding="NewHeaderVO1Iterator" id="ReceiveNo">
+      <AttrNames>
+        <Item Value="ReceiveNo"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="NewHeaderVO1Iterator" id="DocumentDate">
+      <AttrNames>
+        <Item Value="DocumentDate"/>
+      </AttrNames>
+    </attributeValues>
+    <tree IterBinding="HeaderVO1Iterator" id="HeaderVO1">
+      <nodeDefinition DefName="mnj.mfg.model.views.HeaderVO" Name="HeaderVO10">
+        <AttrNames>
+          <Item Value="Attribute5"/>
+          <Item Value="StyleName"/>
+          <Item Value="Season"/>
+          <Item Value="UpdateOn"/>
+          <Item Value="BuyerId"/>
+          <Item Value="Remarks"/>
+          <Item Value="ReceiptChallanNo"/>
+          <Item Value="HeaderId"/>
+          <Item Value="Unit"/>
+          <Item Value="CurrentStyle"/>
+          <Item Value="CurrentSeason"/>
+          <Item Value="PocId"/>
+          <Item Value="BuyerNew"/>
+          <Item Value="StyleNew"/>
+          <Item Value="SeasonNew"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <action id="Rollback" RequiresUpdateModel="false"
+            Action="rollbackTransaction" DataControl="MainAMDataControl"/>
+    <action IterBinding="HeaderVO1Iterator" id="Delete4"
+            RequiresUpdateModel="false" Action="removeCurrentRow"/>
+    <tree IterBinding="MNJ_ISSUE_REC_WASH_REC_L_VO1Iterator"
+          id="MNJ_ISSUE_REC_WASH_REC_L_VO1">
+      <nodeDefinition DefName="mnj.mfg.model.views.MNJ_ISSUE_REC_WASH_REC_L_VO"
+                      Name="MNJ_ISSUE_REC_WASH_REC_L_VO10">
+        <AttrNames>
+          <Item Value="Attribute1"/>
+          <Item Value="Attribute2"/>
+          <Item Value="Attribute3"/>
+          <Item Value="Attribute4"/>
+          <Item Value="ProductionType"/>
+          <Item Value="WashType"/>
+          <Item Value="WashEmdPrintInvorg"/>
+          <Item Value="RecevingDate"/>
+          <Item Value="RecevingChallanNo"/>
+          <Item Value="WashEmdPrintInv"/>
+          <Item Value="Remarks"/>
+          <Item Value="Unit"/>
+          <Item Value="CurrentBpo"/>
+          <Item Value="BpoId"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <tree IterBinding="MNJ_ISSUEREC_WASH_REC_SIZE_VO1Iterator"
+          id="MNJ_ISSUEREC_WASH_REC_SIZE_VO1">
+      <nodeDefinition DefName="mnj.mfg.model.views.MNJ_ISSUEREC_WASH_REC_SIZE_VO"
+                      Name="MNJ_ISSUEREC_WASH_REC_SIZE_VO10">
+        <AttrNames>
+          <Item Value="Attribute1"/>
+          <Item Value="SizeInseam"/>
+          <Item Value="Quantity"/>
+          <Item Value="Remarks"/>
+          <Item Value="ProblemType"/>
+          <Item Value="StitchingWashingOne"/>
+          <Item Value="RejectionType"/>
+          <Item Value="StitchingWashingTwo"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <methodAction id="getIssueChallanNo_Receiving"
+                  InstanceName="MainAMDataControl.dataProvider"
+                  DataControl="MainAMDataControl" RequiresUpdateModel="true"
+                  Action="invokeMethod" MethodName="getIssueChallanNo_Receiving"
+                  IsViewObjectMethod="false"
+                  ReturnName="data.MainAMDataControl.methodResults.getIssueChallanNo_Receiving_MainAMDataControl_dataProvider_getIssueChallanNo_Receiving_result"/>
+    <action IterBinding="MNJ_ISSUE_REC_WASH_REC_L_VO1Iterator" id="Delete3"
+            RequiresUpdateModel="false" Action="removeCurrentRow"/>
+    <attributeValues IterBinding="NewHeaderVO1Iterator" id="Remarks">
+      <AttrNames>
+        <Item Value="Remarks"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="NewHeaderVO1Iterator" id="MasterChallanNo">
+      <AttrNames>
+        <Item Value="MasterChallanNo"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="NewHeaderVO1Iterator" id="MasterChallanDate">
+      <AttrNames>
+        <Item Value="MasterChallanDate"/>
+      </AttrNames>
+    </attributeValues>
+    <methodAction id="Populate" InstanceName="MainAMDataControl.dataProvider"
+                  DataControl="MainAMDataControl" RequiresUpdateModel="true"
+                  Action="invokeMethod" MethodName="Populate"
+                  IsViewObjectMethod="false">
+      <NamedData NDName="ReceiptChallanNo" NDType="java.lang.String"/>
+    </methodAction>
+    <action IterBinding="HeaderVO1Iterator" id="CreateInsert2"
+            RequiresUpdateModel="true" Action="createInsertRow"/>
+    <methodAction id="createLines" InstanceName="MainAMDataControl.dataProvider"
+                  DataControl="MainAMDataControl" RequiresUpdateModel="true"
+                  Action="invokeMethod" MethodName="createLines"
+                  IsViewObjectMethod="false"/>
+    <action IterBinding="MNJ_ISSUEREC_WASH_REC_SIZE_VO1Iterator"
+            id="CreateInsert1" RequiresUpdateModel="true"
+            Action="createInsertRow"/>
+    <methodAction id="Populate_Sizes"
+                  InstanceName="MainAMDataControl.dataProvider"
+                  DataControl="MainAMDataControl" RequiresUpdateModel="true"
+                  Action="invokeMethod" MethodName="Populate_Sizes"
+                  IsViewObjectMethod="false"/>
+    <tree IterBinding="MNJ_ISSUE_REC_WASH_DEL_L_VO1Iterator"
+          id="MNJ_ISSUE_REC_WASH_DEL_L_VO1">
+      <nodeDefinition DefName="mnj.mfg.model.views.MNJ_ISSUE_REC_WASH_DEL_L_VO"
+                      Name="MNJ_ISSUE_REC_WASH_DEL_L_VO10">
+        <AttrNames>
+          <Item Value="Attribute1"/>
+          <Item Value="Attribute2"/>
+          <Item Value="Attribute4"/>
+          <Item Value="Attribute3"/>
+          <Item Value="Quantity"/>
+          <Item Value="ProductionType"/>
+          <Item Value="WashType"/>
+          <Item Value="IssuanceChallanNo"/>
+          <Item Value="Remarks"/>
+          <Item Value="Attribute5"/>
+          <Item Value="Attribute6"/>
+          <Item Value="Attribute7"/>
+          <Item Value="DeliveryDate"/>
+          <Item Value="CurrentStyle"/>
+          <Item Value="CurrentSeason"/>
+          <Item Value="CurrentBpo"/>
+          <Item Value="FinishGoodsColor"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <action IterBinding="MNJ_ISSUE_REC_WASH_DEL_L_VO1Iterator"
+            id="CreateInsert3" RequiresUpdateModel="true"
+            Action="createInsertRow"/>
+    <action IterBinding="MNJ_ISSUE_REC_WASH_DEL_L_VO1Iterator" id="Delete"
+            RequiresUpdateModel="false" Action="removeCurrentRow"/>
+    <tree IterBinding="MNJ_ISSUEREC_WASH_DEL_SIZE_VO1Iterator"
+          id="MNJ_ISSUEREC_WASH_DEL_SIZE_VO1">
+      <nodeDefinition DefName="mnj.mfg.model.views.MNJ_ISSUEREC_WASH_DEL_SIZE_VO"
+                      Name="MNJ_ISSUEREC_WASH_DEL_SIZE_VO10">
+        <AttrNames>
+          <Item Value="Attribute1"/>
+          <Item Value="Inseam"/>
+          <Item Value="Quantity"/>
+          <Item Value="ProblemType"/>
+          <Item Value="StitchingWashingOne"/>
+          <Item Value="RejectionType"/>
+          <Item Value="StitchingWashingTwo"/>
+          <Item Value="Remarks"/>
+          <Item Value="SizeInseam"/>
+          <Item Value="QtyTotal"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <action IterBinding="MNJ_ISSUEREC_WASH_DEL_SIZE_VO1Iterator"
+            id="CreateInsert" RequiresUpdateModel="true"
+            Action="createInsertRow"/>
+    <action IterBinding="MNJ_ISSUEREC_WASH_DEL_SIZE_VO1Iterator" id="Delete1"
+            RequiresUpdateModel="false" Action="removeCurrentRow"/>
+    <methodAction id="save" InstanceName="MainAMDataControl.dataProvider"
+                  DataControl="MainAMDataControl" RequiresUpdateModel="true"
+                  Action="invokeMethod" MethodName="save"
+                  IsViewObjectMethod="false"/>
+    <methodAction id="Quantity_Match_Check"
+                  InstanceName="MainAMDataControl.dataProvider"
+                  DataControl="MainAMDataControl" RequiresUpdateModel="true"
+                  Action="invokeMethod" MethodName="Quantity_Match_Check"
+                  IsViewObjectMethod="false"/>
+    <methodAction id="Detail_Delete_Check"
+                  InstanceName="MainAMDataControl.dataProvider"
+                  DataControl="MainAMDataControl" RequiresUpdateModel="true"
+                  Action="invokeMethod" MethodName="Detail_Delete_Check"
+                  IsViewObjectMethod="false"/>
+    <methodAction id="ReceiveLines_Delete_Check"
+                  InstanceName="MainAMDataControl.dataProvider"
+                  DataControl="MainAMDataControl" RequiresUpdateModel="true"
+                  Action="invokeMethod" MethodName="ReceiveLines_Delete_Check"
+                  IsViewObjectMethod="false"/>
+    <methodAction id="Sizes_Delete_Check"
+                  InstanceName="MainAMDataControl.dataProvider"
+                  DataControl="MainAMDataControl" RequiresUpdateModel="true"
+                  Action="invokeMethod" MethodName="Sizes_Delete_Check"
+                  IsViewObjectMethod="false"/>
+    <methodAction id="validateIssueRecDate"
+                  InstanceName="MainAMDataControl.dataProvider"
+                  DataControl="MainAMDataControl" RequiresUpdateModel="true"
+                  Action="invokeMethod" MethodName="validateIssueRecDate"
+                  IsViewObjectMethod="false"
+                  ReturnName="data.MainAMDataControl.methodResults.validateIssueRecDate_MainAMDataControl_dataProvider_validateIssueRecDate_result"/>
+    <tree IterBinding="Receipt_Challan_LOV1Iterator" id="Receipt_Challan_LOV1">
+      <nodeDefinition DefName="mnj.mfg.model.lov.Receipt_Challan_LOV"
+                      Name="Receipt_Challan_LOV10">
+        <AttrNames>
+          <Item Value="flag"/>
+          <Item Value="IssuanceChallanNo"/>
+          <Item Value="Buyer"/>
+          <Item Value="StyleName"/>
+          <Item Value="Season"/>
+          <Item Value="Unit"/>
+          <Item Value="IssuanceDate"/>
+          <Item Value="CurrentStyle"/>
+          <Item Value="CurrentSeason"/>
+          <Item Value="ChallanNo"/>
+          <Item Value="PocId"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <listOfValues StaticList="false" IterBinding="NewHeaderVO1Iterator"
+                  Uses="LOV_Unit" id="Unit"/>
+    <action IterBinding="MNJ_ISSUEREC_WASH_REC_SIZE_VO1Iterator" id="Delete2"
+            RequiresUpdateModel="false" Action="removeCurrentRow"/>
+    <tree IterBinding="papulateSizeVo1Iterator" id="papulateSizeVo11">
+      <nodeDefinition DefName="mnj.mfg.model.lov.papulateSizeVo"
+                      Name="papulateSizeVo110">
+        <AttrNames>
+          <Item Value="Style"/>
+          <Item Value="Color"/>
+          <Item Value="SizeVal"/>
+          <Item Value="Inseam"/>
+          <Item Value="ReceivedQty"/>
+          <Item Value="DeleveredQuantity"/>
+          <Item Value="BalanceQty"/>
+          <Item Value="FlagSize" Binds="FlagSize"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <list IterBinding="NewHeaderVO1Iterator" StaticList="false"
+          Uses="LOV_ChallanType" id="ChallanType" DTSupportsMRU="true"/>
+  </bindings>
+</pageDefinition>

@@ -1,0 +1,620 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE ViewObject SYSTEM "jbo_03_01.dtd">
+<!---->
+<ViewObject
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="MNJ_ISSUE_REC_WASH_DEL_L_VO"
+  Version="11.1.1.62.29"
+  InheritPersonalization="true"
+  BindingStyle="OracleName"
+  CustomQuery="true"
+  PageIterMode="Full"
+  UseGlueCode="false"
+  RowClass="mnj.mfg.model.views.MNJ_ISSUE_REC_WASH_DEL_L_VORowImpl"
+  ComponentClass="mnj.mfg.model.views.MNJ_ISSUE_REC_WASH_DEL_L_VOImpl">
+  <DesignTime>
+    <Attr Name="_codeGenFlag2" Value="Access|Coll|Prog|VarAccess"/>
+    <Attr Name="_isCodegen" Value="true"/>
+    <Attr Name="_isExpertMode" Value="true"/>
+  </DesignTime>
+  <ViewAccessor
+    Name="FillBposVO1"
+    ViewObjectName="mnj.mfg.model.lov.FillBposVO"
+    RowLevelBinds="true"/>
+  <ViewAccessor
+    Name="WashTypeVO1"
+    ViewObjectName="mnj.mfg.model.lov.WashTypeVO"
+    RowLevelBinds="true"/>
+  <ViewAccessor
+    Name="ProductionTypeVO1"
+    ViewObjectName="mnj.mfg.model.lov.ProductionTypeVO"
+    RowLevelBinds="true"/>
+  <ListBinding
+    Name="LOV_Attribute1"
+    ListVOName="FillBposVO1"
+    ListRangeSize="10"
+    NullValueFlag="none"
+    NullValueId="LOV_Attribute1_LOVUIHints_NullValueId"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="Attribute1"/>
+    </AttrArray>
+    <AttrArray Name="DerivedAttrNames">
+      <Item Value="Attribute2"/>
+      <Item Value="Attribute3"/>
+      <Item Value="Attribute4"/>
+      <Item Value="Attribute5"/>
+      <Item Value="Quantity"/>
+      <Item Value="ProductionType"/>
+      <Item Value="Attribute6"/>
+      <Item Value="Attribute7"/>
+    </AttrArray>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="BpoNo"/>
+      <Item Value="StnNumber"/>
+      <Item Value="Color"/>
+      <Item Value="Season"/>
+      <Item Value="Style"/>
+      <Item Value="Quantity"/>
+      <Item Value="ProductionType"/>
+      <Item Value="Buyer"/>
+      <Item Value="WashUnwash"/>
+    </AttrArray>
+    <AttrArray Name="ListDisplayAttrNames">
+      <Item Value="BpoNo"/>
+      <Item Value="StnNumber"/>
+      <Item Value="Style"/>
+      <Item Value="CurrentStyle"/>
+      <Item Value="Season"/>
+      <Item Value="CurrentSeason"/>
+      <Item Value="Color"/>
+      <Item Value="Quantity"/>
+      <Item Value="ProductionType"/>
+    </AttrArray>
+    <DisplayCriteria
+      Hint="showAndExecute"/>
+  </ListBinding>
+  <ListBinding
+    Name="LOV_WashType"
+    ListVOName="WashTypeVO1"
+    ListRangeSize="10"
+    NullValueFlag="none"
+    NullValueId="LOV_WashType_LOVUIHints_NullValueId"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="WashType"/>
+    </AttrArray>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="Description"/>
+    </AttrArray>
+    <AttrArray Name="ListDisplayAttrNames">
+      <Item Value="Description"/>
+    </AttrArray>
+    <DisplayCriteria
+      Hint="showAndExecute"/>
+  </ListBinding>
+  <ListBinding
+    Name="LOV_ProductionType"
+    ListVOName="ProductionTypeVO1"
+    ListRangeSize="10"
+    NullValueFlag="none"
+    NullValueId="LOV_ProductionType_LOVUIHints_NullValueId"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="ProductionType"/>
+    </AttrArray>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="Description"/>
+    </AttrArray>
+    <DisplayCriteria
+      Hint="showAndExecute"/>
+  </ListBinding>
+  <SQLQuery>
+    <![CDATA[SELECT MNJ_ISSUE_REC_WASH_DEL_L_EO.IR_HEADER_ID,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.LINE_ID,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.QUANTITY,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.CUT_DATE,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.STITCH_PREP_DATE,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.WASHING_PLANT,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.SEND_WASH_DATE,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.SEND_BY,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.CARRIED_BY,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.DEL_CHALLAN_NO,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.REMARKS,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE1,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE2,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE3,
+       /*case statement added by Mr. Sakibul Islam on requiremnet of Mr. Wasi Udin for showing finish_goods_color on 29.Mar.2020*/
+       (SELECT CASE
+                  WHEN    oola.ATTRIBUTE13 IS NULL
+                       OR oola.ATTRIBUTE13 = 'No entry'
+                  THEN
+                     TRIM (
+                        (SELECT FFV.DESCRIPTION
+                           FROM FND_FLEX_VALUES_VL FFV
+                          WHERE     FFV.FLEX_VALUE = msib.segment4
+                                AND FFV.FLEX_VALUE_SET_ID = 1014895
+                                AND FFV.ENABLED_FLAG = 'Y'
+                                AND ROWNUM = 1           -- added on 27 nov 19
+                                              ))
+                  ELSE
+                     oola.ATTRIBUTE13
+               END
+                  Finish_Goods_Color
+          FROM OE_ORDER_HEADERS_ALL OOHA,
+               OE_ORDER_LINES_ALL OOLA,
+               MTL_SYSTEM_ITEMS MSIb
+         WHERE     1 = 1
+               AND OOHA.HEADER_ID = OOLA.HEADER_ID
+               AND MSIb.INVENTORY_ITEM_ID = OOLA.INVENTORY_ITEM_ID -- added on 18 feb 20
+               AND MSIb.ORGANIZATION_ID = 353
+               AND ooha.SHIPPING_INSTRUCTIONS =
+                      MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE5        --'569350'
+               AND ooha.ATTRIBUTE4 = MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE4 --'C3-20 Fall'
+               AND ooha.SOLD_TO_ORG_ID =
+                      (SELECT hca.CUST_ACCOUNT_ID
+                         FROM hz_cust_accounts hca,
+                              hz_parties hp,
+                              ar_customers ac
+                        WHERE     hp.PARTY_ID = hca.PARTY_ID
+                              AND hca.CUST_ACCOUNT_ID = ac.CUSTOMER_ID
+                              AND hp.KNOWN_AS IS NOT NULL
+                              AND ac.STATUS = 'A'
+                              AND ac.CUSTOMER_NAME_PHONETIC = 'M'
+                              AND hp.KNOWN_AS =
+                                     MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE6
+                              AND ROWNUM = 1 --added on 16.oct.18 for temporaray solotion to resolve single row subquery return multiple value  issue
+                                            )                         --'1052'
+               --AND msib.attribute17 = HederEO.WASH         --'BB MH Table#1'
+               AND OOHA.CUST_PO_NUMBER = MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE1
+               AND ROWNUM = 1)
+          Finish_Goods_Color,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE4,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE5,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE6,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE7,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE8,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE9,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE10,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE11,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE12,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE13,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE14,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE15,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.SALESORDER_ID,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.LAST_UPDATE_DATE,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.LAST_UPDATED_BY,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.CREATION_DATE,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.CREATED_BY,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.ORG_ID,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.CHALLAN_NO,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.WASH_TYPE,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.PRODUCTION_TYPE,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.WASH_EMD_PRINT_INV,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.ISSUANCE_DATE,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.ISSUANCE_CHALLAN_NO,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.WASH_EMD_PRINT_INVORG,
+       MNJ_ISSUE_REC_WASH_DEL_L_EO.Delivery_Date,
+       (SELECT DISTINCT hca.cust_account_id
+          FROM hz_parties hp, hz_cust_accounts hca, ar_customers ac
+         WHERE     hp.party_id = hca.party_id
+               AND hca.cust_account_id = ac.customer_id
+               AND hp.known_as IS NOT NULL
+               AND ac.status = 'A'
+               AND ac.customer_name_phonetic = 'M'
+               AND MNJ_ISSUE_REC_WASH_DEL_L_EO.attribute6 = known_as
+               AND ROWNUM = 1 -- added on 17 oct 18 for temporary issue resolve
+                             )
+          Buyer_Id,
+       NVL (
+          (SELECT DECODE (StyleLineEO.TRACK_BASIS,
+                          'Style Name', StyleLineEO.STYLE_NAME,
+                          'Style Number', StyleLineEO.STYLE_NUMBER)
+             FROM PWC_MFG_BSS_STYLE_L StyleLineEO,
+                  pwc_mfg_bss_buyer_h pwcmfgbssbuyerh,
+                  PWC_MFG_BSS_SEASON_D SeasonDetailEO
+            WHERE     StyleLineEO.STYLE_IDENTIFIER =
+                         MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE5
+                  AND pwcmfgbssbuyerh.BUYER_ID =
+                         (SELECT DISTINCT hca.cust_account_id
+                            FROM hz_parties hp,
+                                 hz_cust_accounts hca,
+                                 ar_customers ac
+                           WHERE     hp.party_id = hca.party_id
+                                 AND hca.cust_account_id = ac.customer_id
+                                 AND hp.known_as IS NOT NULL
+                                 AND ac.status = 'A'
+                                 AND ac.customer_name_phonetic = 'M'
+                                 AND MNJ_ISSUE_REC_WASH_DEL_L_EO.attribute6 =
+                                        known_as)
+                  --AND   pwcmfgbssbuyerh.ORG_ID = mmoda.final_mfg_org_id
+                  AND StyleLineEO.HEADER_ID = pwcmfgbssbuyerh.HEADER_ID
+                  AND SeasonDetailEO.LINE_ID = StyleLineEO.LINE_ID
+                  AND ROWNUM = 1),
+          MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE5)
+          Current_Style,
+       NVL (
+          (SELECT SeasonDetailEO.SEASON_NAME
+             FROM PWC_MFG_BSS_STYLE_L StyleLineEO,
+                  pwc_mfg_bss_buyer_h pwcmfgbssbuyerh,
+                  PWC_MFG_BSS_SEASON_D SeasonDetailEO
+            WHERE     StyleLineEO.STYLE_IDENTIFIER =
+                         MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE5
+                  AND pwcmfgbssbuyerh.BUYER_ID =
+                         (SELECT DISTINCT hca.cust_account_id
+                            FROM hz_parties hp,
+                                 hz_cust_accounts hca,
+                                 ar_customers ac
+                           WHERE     hp.party_id = hca.party_id
+                                 AND hca.cust_account_id = ac.customer_id
+                                 AND hp.known_as IS NOT NULL
+                                 AND ac.status = 'A'
+                                 AND ac.customer_name_phonetic = 'M'
+                                 AND MNJ_ISSUE_REC_WASH_DEL_L_EO.attribute6 =
+                                        known_as)
+                  --AND   pwcmfgbssbuyerh.ORG_ID = mmoda.final_mfg_org_id
+                  AND SeasonDetailEO.SEASON_NAME =
+                         MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE4
+                  AND StyleLineEO.HEADER_ID = pwcmfgbssbuyerh.HEADER_ID
+                  AND SeasonDetailEO.LINE_ID = StyleLineEO.LINE_ID
+                  AND ROWNUM = 1),
+          MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE4)
+          Current_Season,
+       NVL (
+          (SELECT ooha.attribute12
+             FROM OE_ORDER_HEADERS_ALL ooha
+            WHERE     ooha.CUST_PO_NUMBER =
+                         MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE1
+                  AND ROWNUM = 1),
+          MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE1)
+          CURRENT_BPO
+  FROM MNJ_ISSUE_REC_WASH_DEL_L MNJ_ISSUE_REC_WASH_DEL_L_EO]]>
+  </SQLQuery>
+  <EntityUsage
+    Name="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    Entity="mnj.mfg.model.entities.MNJ_ISSUE_REC_WASH_DEL_L_EO"/>
+  <ViewAttribute
+    Name="IrHeaderId"
+    PrecisionRule="true"
+    EntityAttrName="IrHeaderId"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="IR_HEADER_ID"/>
+  <ViewAttribute
+    Name="LineId"
+    IsNotNull="true"
+    PrecisionRule="true"
+    EntityAttrName="LineId"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="LINE_ID"/>
+  <ViewAttribute
+    Name="Quantity"
+    PrecisionRule="true"
+    EntityAttrName="Quantity"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="QUANTITY"/>
+  <ViewAttribute
+    Name="CutDate"
+    PrecisionRule="true"
+    EntityAttrName="CutDate"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="CUT_DATE"/>
+  <ViewAttribute
+    Name="StitchPrepDate"
+    PrecisionRule="true"
+    EntityAttrName="StitchPrepDate"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="STITCH_PREP_DATE"/>
+  <ViewAttribute
+    Name="WashingPlant"
+    PrecisionRule="true"
+    EntityAttrName="WashingPlant"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="WASHING_PLANT"/>
+  <ViewAttribute
+    Name="SendWashDate"
+    PrecisionRule="true"
+    EntityAttrName="SendWashDate"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="SEND_WASH_DATE"/>
+  <ViewAttribute
+    Name="SendBy"
+    PrecisionRule="true"
+    EntityAttrName="SendBy"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="SEND_BY"/>
+  <ViewAttribute
+    Name="CarriedBy"
+    PrecisionRule="true"
+    EntityAttrName="CarriedBy"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="CARRIED_BY"/>
+  <ViewAttribute
+    Name="DelChallanNo"
+    PrecisionRule="true"
+    EntityAttrName="DelChallanNo"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="DEL_CHALLAN_NO"/>
+  <ViewAttribute
+    Name="Remarks"
+    PrecisionRule="true"
+    EntityAttrName="Remarks"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="REMARKS"/>
+  <ViewAttribute
+    Name="Attribute1"
+    PrecisionRule="true"
+    EntityAttrName="Attribute1"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="ATTRIBUTE1"
+    LOVName="LOV_Attribute1">
+    <Properties>
+      <SchemaBasedProperties>
+        <CONTROLTYPE
+          Value="input_text_lov"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Attribute2"
+    PrecisionRule="true"
+    EntityAttrName="Attribute2"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="ATTRIBUTE2"/>
+  <ViewAttribute
+    Name="Attribute3"
+    PrecisionRule="true"
+    EntityAttrName="Attribute3"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="ATTRIBUTE3"/>
+  <ViewAttribute
+    Name="FinishGoodsColor"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="240"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="FINISH_GOODS_COLOR"
+    Expression="FINISH_GOODS_COLOR"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="240"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Attribute4"
+    PrecisionRule="true"
+    EntityAttrName="Attribute4"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="ATTRIBUTE4"/>
+  <ViewAttribute
+    Name="Attribute5"
+    PrecisionRule="true"
+    EntityAttrName="Attribute5"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="ATTRIBUTE5"/>
+  <ViewAttribute
+    Name="Attribute6"
+    PrecisionRule="true"
+    EntityAttrName="Attribute6"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="ATTRIBUTE6"/>
+  <ViewAttribute
+    Name="Attribute7"
+    PrecisionRule="true"
+    EntityAttrName="Attribute7"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="ATTRIBUTE7"/>
+  <ViewAttribute
+    Name="Attribute8"
+    PrecisionRule="true"
+    EntityAttrName="Attribute8"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="ATTRIBUTE8"/>
+  <ViewAttribute
+    Name="Attribute9"
+    PrecisionRule="true"
+    EntityAttrName="Attribute9"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="ATTRIBUTE9"/>
+  <ViewAttribute
+    Name="Attribute10"
+    PrecisionRule="true"
+    EntityAttrName="Attribute10"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="ATTRIBUTE10"/>
+  <ViewAttribute
+    Name="Attribute11"
+    PrecisionRule="true"
+    EntityAttrName="Attribute11"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="ATTRIBUTE11"/>
+  <ViewAttribute
+    Name="Attribute12"
+    PrecisionRule="true"
+    EntityAttrName="Attribute12"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="ATTRIBUTE12"/>
+  <ViewAttribute
+    Name="Attribute13"
+    PrecisionRule="true"
+    EntityAttrName="Attribute13"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="ATTRIBUTE13"/>
+  <ViewAttribute
+    Name="Attribute14"
+    PrecisionRule="true"
+    EntityAttrName="Attribute14"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="ATTRIBUTE14"/>
+  <ViewAttribute
+    Name="Attribute15"
+    PrecisionRule="true"
+    EntityAttrName="Attribute15"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="ATTRIBUTE15"/>
+  <ViewAttribute
+    Name="SalesorderId"
+    PrecisionRule="true"
+    EntityAttrName="SalesorderId"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="SALESORDER_ID"/>
+  <ViewAttribute
+    Name="LastUpdateDate"
+    PrecisionRule="true"
+    EntityAttrName="LastUpdateDate"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="LAST_UPDATE_DATE"/>
+  <ViewAttribute
+    Name="LastUpdatedBy"
+    PrecisionRule="true"
+    EntityAttrName="LastUpdatedBy"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="LAST_UPDATED_BY"/>
+  <ViewAttribute
+    Name="CreationDate"
+    PrecisionRule="true"
+    EntityAttrName="CreationDate"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="CREATION_DATE"/>
+  <ViewAttribute
+    Name="CreatedBy"
+    PrecisionRule="true"
+    EntityAttrName="CreatedBy"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="CREATED_BY"/>
+  <ViewAttribute
+    Name="OrgId"
+    PrecisionRule="true"
+    EntityAttrName="OrgId"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="ORG_ID"/>
+  <ViewAttribute
+    Name="ChallanNo"
+    PrecisionRule="true"
+    EntityAttrName="ChallanNo"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="CHALLAN_NO"/>
+  <ViewAttribute
+    Name="WashType"
+    PrecisionRule="true"
+    EntityAttrName="WashType"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="WASH_TYPE"
+    LOVName="LOV_WashType">
+    <Properties>
+      <SchemaBasedProperties>
+        <CONTROLTYPE
+          Value="input_text_lov"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="ProductionType"
+    PrecisionRule="true"
+    EntityAttrName="ProductionType"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="PRODUCTION_TYPE"
+    LOVName="LOV_ProductionType">
+    <Properties>
+      <SchemaBasedProperties>
+        <CONTROLTYPE
+          Value="input_text_lov"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="WashEmdPrintInv"
+    PrecisionRule="true"
+    EntityAttrName="WashEmdPrintInv"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="WASH_EMD_PRINT_INV"/>
+  <ViewAttribute
+    Name="IssuanceDate"
+    PrecisionRule="true"
+    EntityAttrName="IssuanceDate"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="ISSUANCE_DATE"/>
+  <ViewAttribute
+    Name="IssuanceChallanNo"
+    PrecisionRule="true"
+    EntityAttrName="IssuanceChallanNo"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="ISSUANCE_CHALLAN_NO"/>
+  <ViewAttribute
+    Name="WashEmdPrintInvorg"
+    PrecisionRule="true"
+    EntityAttrName="WashEmdPrintInvorg"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="WASH_EMD_PRINT_INVORG"/>
+  <ViewAttribute
+    Name="DeliveryDate"
+    PrecisionRule="true"
+    AliasName="DELIVERY_DATE"
+    EntityAttrName="DeliveryDate"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"/>
+  <ViewAttribute
+    Name="BuyerId"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="BUYER_ID"
+    Expression="BUYER_ID"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="22"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="CurrentStyle"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="CURRENT_STYLE"
+    Expression="CURRENT_STYLE"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="CurrentSeason"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="CURRENT_SEASON"
+    Expression="CURRENT_SEASON"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="CurrentBpo"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="CURRENT_BPO"
+    Expression="CURRENT_BPO"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewLinkAccessor
+    Name="MNJ_ISSUEREC_WASH_DEL_SIZE_VO"
+    ViewLink="mnj.mfg.model.views.MnjIssuerecWashDelSizeFkLink"
+    Type="oracle.jbo.RowIterator"
+    IsUpdateable="false"/>
+</ViewObject>

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE ViewObject SYSTEM "jbo_03_01.dtd">
+<!---->
+<ViewObject
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="similarPopSizeVO"
+  Version="11.1.1.62.29"
+  InheritPersonalization="true"
+  BindingStyle="OracleName"
+  CustomQuery="true"
+  RowClass="mnj.mfg.model.lov.similarPopSizeVORowImpl"
+  ComponentClass="mnj.mfg.model.lov.similarPopSizeVOImpl"
+  PageIterMode="Full"
+  UseGlueCode="false">
+  <DesignTime>
+    <Attr Name="_codeGenFlag2" Value="Access|Coll|VarAccess"/>
+    <Attr Name="_isExpertMode" Value="true"/>
+    <Attr Name="_isCodegen" Value="true"/>
+  </DesignTime>
+  <Properties>
+    <SchemaBasedProperties>
+      <LABEL
+        ResId="mnj.mfg.model.lov.similarPopSizeVO_LABEL"/>
+    </SchemaBasedProperties>
+  </Properties>
+  <SQLQuery>
+    <![CDATA[select attribute1,size_inseam, receive_no ,quantity,header_id,line_id,Attribute2 STN
+from 
+(
+SELECT d.attribute1, d.size_inseam, h.receive_no ,
+       (SELECT SUM (mmbir.quantity)
+          FROM mnj_mfg_bundle_iss_rec_h mmbirh,
+               mnj_mfg_bundle_iss_rec_st_fin mmbir
+         WHERE mmbirh.header_id = mmbir.header_id
+           AND mmbirh.form_type = 'BI'
+           AND mmbir.size_id = d.size_inseam
+           AND mmbir.attribute1 = d.attribute1
+           AND mmbirh.division_id IS NOT NULL
+           AND mmbirh.delivery_challan_no =
+                  (SELECT DISTINCT mmbirh1.receive_doc
+                              FROM mnj_mfg_bundle_iss_rec_h mmbirh1
+                             WHERE mmbirh1.receving_challan_no = h.receive_no
+                               -- AND MMBIRH1.DIVISION_ID         = h.ORG_ID
+                               AND ROWNUM = 1)) quantity,
+       h.header_id,l.line_id,l.Attribute2
+  FROM mnj_mfg_issue_rec_wash_h h,
+       mnj_mfg_issue_rec_wash_l_h lh,
+       mnj_mfg_issue_rec_wash_l l,
+       mnj_mfg_issue_inseam_size_d d
+ WHERE h.header_id = lh.header_id 
+    and lh.line_id = l.header_id 
+   AND l.line_id = d.line_id
+   and NVL(h.TRANSACTION_TYPE,'PPP') NOT IN ('After Stitch Issue to 3rd Party','After Finish Issue to 3rd party','Ready For Finish Department','PPP')
+UNION ALL
+SELECT d.attribute1, d.size_inseam, h.receive_no , D.quantity,
+       h.header_id,l.line_id,l.Attribute2
+  FROM mnj_mfg_issue_rec_wash_h h,
+        mnj_mfg_issue_rec_wash_l_h lh,
+       mnj_mfg_issue_rec_wash_l l,
+       mnj_mfg_issue_inseam_size_d d
+ WHERE h.header_id = lh.header_id 
+    and lh.line_id = l.header_id  
+   AND l.line_id = d.line_id
+   and NVL(h.TRANSACTION_TYPE,'PPP') IN ('After Stitch Issue to 3rd Party','After Finish Issue to 3rd party','Ready For Finish Department')   
+) res
+where res.quantity is not null]]>
+  </SQLQuery>
+  <ViewAttribute
+    Name="Attribute1"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="255"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="ATTRIBUTE1"
+    Expression="ATTRIBUTE1"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="SizeInseam"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="500"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="SIZE_INSEAM"
+    Expression="SIZE_INSEAM"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="500"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="ReceiveNo"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="500"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="RECEIVE_NO"
+    Expression="RECEIVE_NO"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="500"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Quantity"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="QUANTITY"
+    Expression="QUANTITY"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="HeaderId"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="HEADER_ID"
+    Expression="HEADER_ID"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="LineId"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="LINE_ID"
+    Expression="LINE_ID"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Stn"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="STN"
+    Expression="STN"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="SFLAG"
+    IsSelected="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="VIEW_ATTR"
+    SQLType="VARCHAR"/>
+  <ResourceBundle>
+    <PropertiesBundle
+      PropertiesFile="model.ModelBundle"/>
+  </ResourceBundle>
+</ViewObject>

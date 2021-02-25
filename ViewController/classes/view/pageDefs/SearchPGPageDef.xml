@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<pageDefinition xmlns="http://xmlns.oracle.com/adfm/uimodel"
+                version="11.1.1.62.29" id="SearchPGPageDef"
+                Package="view.pageDefs">
+  <parameters/>
+  <executables>
+    <variableIterator id="variables"/>
+    <invokeAction id="SessionValues" Binds="setSessionValues" Refresh="always"/>
+    <iterator Binds="NewHeaderVO1" RangeSize="25"
+              DataControl="MainAMDataControl" id="NewHeaderVO1Iterator"/>
+    <searchRegion Criteria="NewHeaderVOCriteria"
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer"
+                  Binds="NewHeaderVO1Iterator" id="NewHeaderVOCriteriaQuery"/>
+    <searchRegion Criteria="NewHeaderVOCriteria"
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer"
+                  Binds="NewHeaderVO1Iterator" id="NewHeaderVOCriteriaQuery1"/>
+  </executables>
+  <bindings>
+    <methodAction id="setSessionValues"
+                  InstanceName="MainAMDataControl.dataProvider"
+                  DataControl="MainAMDataControl" RequiresUpdateModel="true"
+                  Action="invokeMethod" MethodName="setSessionValues"
+                  IsViewObjectMethod="false">
+      <NamedData NDName="orgId" NDValue="#{viewScope.OrgId}"
+                 NDType="java.lang.String"/>
+      <NamedData NDName="userId" NDValue="#{viewScope.UserId}"
+                 NDType="java.lang.String"/>
+      <NamedData NDName="respId" NDValue="#{viewScope.RespId}"
+                 NDType="java.lang.String"/>
+      <NamedData NDName="respAppl" NDValue="#{viewScope.RespApplId}"
+                 NDType="java.lang.String"/>
+    </methodAction>
+    <tree IterBinding="NewHeaderVO1Iterator" id="NewHeaderVO1">
+      <nodeDefinition DefName="mnj.mfg.model.views.NewHeaderVO"
+                      Name="NewHeaderVO10">
+        <AttrNames>
+          <Item Value="ReceiveNo"/>
+          <Item Value="DocumentDate"/>
+          <Item Value="UnitName"/>
+          <Item Value="Style"/>
+          <Item Value="Stn"/>
+          <Item Value="Unit"/>
+          <Item Value="DeliveryChallanNo"/>
+          <Item Value="ReceiptChallanNoH"/>
+          <Item Value="UnitH"/>
+          <Item Value="Season"/>
+          <Item Value="ChallanType"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <action IterBinding="NewHeaderVO1Iterator" id="Delete"
+            RequiresUpdateModel="false" Action="removeCurrentRow"/>
+    <action IterBinding="NewHeaderVO1Iterator" id="setCurrentRowWithKey"
+            RequiresUpdateModel="false" Action="setCurrentRowWithKey">
+      <NamedData NDName="rowKey" NDType="java.lang.String"/>
+    </action>
+    <action id="Commit" RequiresUpdateModel="true" Action="commitTransaction"
+            DataControl="MainAMDataControl"/>
+    <action IterBinding="NewHeaderVO1Iterator" id="Create"
+            RequiresUpdateModel="true" Action="createRow"/>
+    <action IterBinding="NewHeaderVO1Iterator" id="CreateInsert"
+            RequiresUpdateModel="true" Action="createInsertRow"/>
+    <action IterBinding="NewHeaderVO1Iterator" id="setCurrentRowWithKeyValue"
+            RequiresUpdateModel="false" Action="setCurrentRowWithKeyValue">
+      <NamedData NDName="rowKey" NDType="java.lang.String"/>
+    </action>
+  </bindings>
+</pageDefinition>

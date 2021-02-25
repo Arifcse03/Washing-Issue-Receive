@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE ViewObject SYSTEM "jbo_03_01.dtd">
+<!---->
+<ViewObject
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="MNJ_ISSUEREC_WASH_REC_SIZE_VO"
+  Version="11.1.1.62.29"
+  InheritPersonalization="true"
+  BindingStyle="OracleName"
+  CustomQuery="true"
+  PageIterMode="Full"
+  UseGlueCode="false"
+  RowClass="mnj.mfg.model.views.MNJ_ISSUEREC_WASH_REC_SIZE_VORowImpl"
+  ComponentClass="mnj.mfg.model.views.MNJ_ISSUEREC_WASH_REC_SIZE_VOImpl">
+  <DesignTime>
+    <Attr Name="_codeGenFlag2" Value="Access|Coll|VarAccess"/>
+    <Attr Name="_isExpertMode" Value="true"/>
+    <Attr Name="_isCodegen" Value="true"/>
+  </DesignTime>
+  <ViewAccessor
+    Name="Stitching_Washing_LOV1"
+    ViewObjectName="mnj.mfg.model.lov.Stitching_Washing_LOV"
+    RowLevelBinds="true"/>
+  <ViewAccessor
+    Name="Problem_Type_LOV1"
+    ViewObjectName="mnj.mfg.model.lov.Problem_Type_LOV"
+    RowLevelBinds="true"/>
+  <ViewAccessor
+    Name="Rejection_Type_LOV1"
+    ViewObjectName="mnj.mfg.model.lov.Rejection_Type_LOV"
+    RowLevelBinds="true"/>
+  <ListBinding
+    Name="LOV_StitchingWashingOne"
+    ListVOName="Stitching_Washing_LOV1"
+    ListRangeSize="10"
+    NullValueFlag="none"
+    NullValueId="LOV_StitchingWashingOne_LOVUIHints_NullValueId"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="StitchingWashingOne"/>
+    </AttrArray>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="StitchingWashing"/>
+    </AttrArray>
+    <DisplayCriteria
+      Hint="showAndExecute"/>
+  </ListBinding>
+  <ListBinding
+    Name="LOV_StitchingWashingTwo"
+    ListVOName="Stitching_Washing_LOV1"
+    ListRangeSize="10"
+    NullValueFlag="none"
+    NullValueId="LOV_StitchingWashingTwo_LOVUIHints_NullValueId"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="StitchingWashingTwo"/>
+    </AttrArray>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="StitchingWashing"/>
+    </AttrArray>
+    <DisplayCriteria
+      Hint="showAndExecute"/>
+  </ListBinding>
+  <ListBinding
+    Name="LOV_ProblemType"
+    ListVOName="Problem_Type_LOV1"
+    ListRangeSize="10"
+    NullValueFlag="none"
+    NullValueId="LOV_ProblemType_LOVUIHints_NullValueId"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="ProblemType"/>
+    </AttrArray>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="Description"/>
+    </AttrArray>
+    <DisplayCriteria
+      Name="Problem_Type_LOVCriteria"
+      Hint="showAndExecute"/>
+  </ListBinding>
+  <ListBinding
+    Name="LOV_RejectionType"
+    ListVOName="Rejection_Type_LOV1"
+    ListRangeSize="10"
+    NullValueFlag="none"
+    NullValueId="LOV_RejectionType_LOVUIHints_NullValueId"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="RejectionType"/>
+    </AttrArray>
+    <AttrArray Name="DerivedAttrNames">
+      <Item Value="StitchingWashingTwo"/>
+    </AttrArray>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="RejectionType"/>
+      <Item Value="StichingWashing"/>
+    </AttrArray>
+    <AttrArray Name="ListDisplayAttrNames">
+      <Item Value="RejectionType"/>
+      <Item Value="StichingWashing"/>
+    </AttrArray>
+    <DisplayCriteria
+      Hint="showAndExecute"/>
+  </ListBinding>
+  <SQLQuery>
+    <![CDATA[SELECT MNJ_ISSUEREC_WASH_REC_SIZE_E1.LINE_ID, 
+       MNJ_ISSUEREC_WASH_REC_SIZE_E1.RECEVING_SIZE_DET, 
+       MNJ_ISSUEREC_WASH_REC_SIZE_E1.INSEAM, 
+       MNJ_ISSUEREC_WASH_REC_SIZE_E1.SIZE_INSEAM, 
+       MNJ_ISSUEREC_WASH_REC_SIZE_E1.QUANTITY, 
+       MNJ_ISSUEREC_WASH_REC_SIZE_E1.ATTRIBUTE1, 
+       MNJ_ISSUEREC_WASH_REC_SIZE_E1.SALESORDER_ID, 
+       MNJ_ISSUEREC_WASH_REC_SIZE_E1.LAST_UPDATE_DATE, 
+       MNJ_ISSUEREC_WASH_REC_SIZE_E1.LAST_UPDATED_BY, 
+       MNJ_ISSUEREC_WASH_REC_SIZE_E1.CREATION_DATE, 
+       MNJ_ISSUEREC_WASH_REC_SIZE_E1.CREATED_BY, 
+       MNJ_ISSUEREC_WASH_REC_SIZE_E1.ORG_ID, 
+       MNJ_ISSUEREC_WASH_REC_SIZE_E1.REWASH_SEND_DATE, 
+       MNJ_ISSUEREC_WASH_REC_SIZE_E1.REWASH_SEND_QTY, 
+       MNJ_ISSUEREC_WASH_REC_SIZE_E1.REWASH_RECEIVE_DATE, 
+       MNJ_ISSUEREC_WASH_REC_SIZE_E1.Remarks, 
+       MNJ_ISSUEREC_WASH_REC_SIZE_E1.Rejection_Type, 
+       MNJ_ISSUEREC_WASH_REC_SIZE_E1.Problem_Type, 
+       MNJ_ISSUEREC_WASH_REC_SIZE_E1.Stitching_Washing_one, 
+       MNJ_ISSUEREC_WASH_REC_SIZE_E1.Stitching_Washing_two
+FROM MNJ_ISSUEREC_WASH_REC_SIZE MNJ_ISSUEREC_WASH_REC_SIZE_E1]]>
+  </SQLQuery>
+  <EntityUsage
+    Name="MNJ_ISSUEREC_WASH_REC_SIZE_E1"
+    Entity="mnj.mfg.model.entities.MNJ_ISSUEREC_WASH_REC_SIZE_EO"/>
+  <ViewAttribute
+    Name="LineId"
+    PrecisionRule="true"
+    EntityAttrName="LineId"
+    EntityUsage="MNJ_ISSUEREC_WASH_REC_SIZE_E1"
+    AliasName="LINE_ID"/>
+  <ViewAttribute
+    Name="RecevingSizeDet"
+    IsNotNull="true"
+    PrecisionRule="true"
+    EntityAttrName="RecevingSizeDet"
+    EntityUsage="MNJ_ISSUEREC_WASH_REC_SIZE_E1"
+    AliasName="RECEVING_SIZE_DET"/>
+  <ViewAttribute
+    Name="Inseam"
+    PrecisionRule="true"
+    EntityAttrName="Inseam"
+    EntityUsage="MNJ_ISSUEREC_WASH_REC_SIZE_E1"
+    AliasName="INSEAM"/>
+  <ViewAttribute
+    Name="SizeInseam"
+    PrecisionRule="true"
+    EntityAttrName="SizeInseam"
+    EntityUsage="MNJ_ISSUEREC_WASH_REC_SIZE_E1"
+    AliasName="SIZE_INSEAM"/>
+  <ViewAttribute
+    Name="Quantity"
+    PrecisionRule="true"
+    EntityAttrName="Quantity"
+    EntityUsage="MNJ_ISSUEREC_WASH_REC_SIZE_E1"
+    AliasName="QUANTITY"/>
+  <ViewAttribute
+    Name="Attribute1"
+    PrecisionRule="true"
+    EntityAttrName="Attribute1"
+    EntityUsage="MNJ_ISSUEREC_WASH_REC_SIZE_E1"
+    AliasName="ATTRIBUTE1"/>
+  <ViewAttribute
+    Name="SalesorderId"
+    PrecisionRule="true"
+    EntityAttrName="SalesorderId"
+    EntityUsage="MNJ_ISSUEREC_WASH_REC_SIZE_E1"
+    AliasName="SALESORDER_ID"/>
+  <ViewAttribute
+    Name="LastUpdateDate"
+    PrecisionRule="true"
+    EntityAttrName="LastUpdateDate"
+    EntityUsage="MNJ_ISSUEREC_WASH_REC_SIZE_E1"
+    AliasName="LAST_UPDATE_DATE"/>
+  <ViewAttribute
+    Name="LastUpdatedBy"
+    PrecisionRule="true"
+    EntityAttrName="LastUpdatedBy"
+    EntityUsage="MNJ_ISSUEREC_WASH_REC_SIZE_E1"
+    AliasName="LAST_UPDATED_BY"/>
+  <ViewAttribute
+    Name="CreationDate"
+    PrecisionRule="true"
+    EntityAttrName="CreationDate"
+    EntityUsage="MNJ_ISSUEREC_WASH_REC_SIZE_E1"
+    AliasName="CREATION_DATE"/>
+  <ViewAttribute
+    Name="CreatedBy"
+    PrecisionRule="true"
+    EntityAttrName="CreatedBy"
+    EntityUsage="MNJ_ISSUEREC_WASH_REC_SIZE_E1"
+    AliasName="CREATED_BY"/>
+  <ViewAttribute
+    Name="OrgId"
+    PrecisionRule="true"
+    EntityAttrName="OrgId"
+    EntityUsage="MNJ_ISSUEREC_WASH_REC_SIZE_E1"
+    AliasName="ORG_ID"/>
+  <ViewAttribute
+    Name="RewashSendDate"
+    PrecisionRule="true"
+    EntityAttrName="RewashSendDate"
+    EntityUsage="MNJ_ISSUEREC_WASH_REC_SIZE_E1"
+    AliasName="REWASH_SEND_DATE"/>
+  <ViewAttribute
+    Name="RewashSendQty"
+    PrecisionRule="true"
+    EntityAttrName="RewashSendQty"
+    EntityUsage="MNJ_ISSUEREC_WASH_REC_SIZE_E1"
+    AliasName="REWASH_SEND_QTY"/>
+  <ViewAttribute
+    Name="RewashReceiveDate"
+    PrecisionRule="true"
+    EntityAttrName="RewashReceiveDate"
+    EntityUsage="MNJ_ISSUEREC_WASH_REC_SIZE_E1"
+    AliasName="REWASH_RECEIVE_DATE"/>
+  <ViewAttribute
+    Name="Remarks"
+    PrecisionRule="true"
+    AliasName="REMARKS"
+    EntityAttrName="Remarks"
+    EntityUsage="MNJ_ISSUEREC_WASH_REC_SIZE_E1"/>
+  <ViewAttribute
+    Name="RejectionType"
+    PrecisionRule="true"
+    AliasName="REJECTION_TYPE"
+    EntityAttrName="RejectionType"
+    EntityUsage="MNJ_ISSUEREC_WASH_REC_SIZE_E1"
+    LOVName="LOV_RejectionType">
+    <Properties>
+      <SchemaBasedProperties>
+        <CONTROLTYPE
+          Value="input_text_lov"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="ProblemType"
+    PrecisionRule="true"
+    AliasName="PROBLEM_TYPE"
+    EntityAttrName="ProblemType"
+    EntityUsage="MNJ_ISSUEREC_WASH_REC_SIZE_E1"
+    LOVName="LOV_ProblemType">
+    <Properties>
+      <SchemaBasedProperties>
+        <CONTROLTYPE
+          Value="input_text_lov"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="StitchingWashingOne"
+    PrecisionRule="true"
+    AliasName="STITCHING_WASHING_ONE"
+    EntityAttrName="StitchingWashingOne"
+    EntityUsage="MNJ_ISSUEREC_WASH_REC_SIZE_E1"
+    LOVName="LOV_StitchingWashingOne">
+    <Properties>
+      <SchemaBasedProperties>
+        <CONTROLTYPE
+          Value="input_text_lov"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="StitchingWashingTwo"
+    PrecisionRule="true"
+    AliasName="STITCHING_WASHING_TWO"
+    EntityAttrName="StitchingWashingTwo"
+    EntityUsage="MNJ_ISSUEREC_WASH_REC_SIZE_E1"
+    LOVName="LOV_StitchingWashingTwo">
+    <Properties>
+      <SchemaBasedProperties>
+        <CONTROLTYPE
+          Value="input_text_lov"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+</ViewObject>

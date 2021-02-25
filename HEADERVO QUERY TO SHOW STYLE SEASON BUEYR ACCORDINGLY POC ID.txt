@@ -1,0 +1,86 @@
+SELECT HeaderEO.HEADER_ID, 
+       HeaderEO.RECEIVE_NO, 
+       HeaderEO.INVOICE_NO, 
+       HeaderEO.COLOR, 
+       HeaderEO.BUYER_ID, 
+       HeaderEO.STYLE_NAME, 
+       HeaderEO.SEASON, 
+       HeaderEO.DATE_OF_GRN, 
+       HeaderEO.CREATED_BY, 
+       HeaderEO.CREATION_DATE, 
+       HeaderEO.LAST_UPDATED_BY, 
+       HeaderEO.LAST_UPDATE_DATE, 
+       HeaderEO.ORG_ID, 
+       HeaderEO.HEADER_NO, 
+       HeaderEO.LOT_NUMBER, 
+       HeaderEO.ATTRIBUTE1, 
+       HeaderEO.ATTRIBUTE2, 
+       HeaderEO.ATTRIBUTE3, 
+       HeaderEO.ATTRIBUTE4, 
+       HeaderEO.ATTRIBUTE5, 
+       HeaderEO.ATTRIBUTE6, 
+       HeaderEO.ATTRIBUTE7, 
+       HeaderEO.ATTRIBUTE8, 
+       HeaderEO.ATTRIBUTE9, 
+       HeaderEO.ATTRIBUTE10, 
+       HeaderEO.ATTRIBUTE11, 
+       HeaderEO.ATTRIBUTE12, 
+       HeaderEO.ATTRIBUTE13, 
+       HeaderEO.ATTRIBUTE14, 
+       HeaderEO.ATTRIBUTE15, 
+       HeaderEO.SALESORDER_ID, 
+       HeaderEO.TRANSACTION_TYPE, 
+       HeaderEO.TRANSACTION,
+       HeaderEO.IR_HEADER_ID,
+       HeaderEO.REMARKS,
+       HeaderEO.UPDATE_ON,
+       HeaderEO.RECEIPT_CHALLAN_NO,
+       HeaderEO.Unit,
+       (SELECT DECODE(StyleLineEO.TRACK_BASIS,'Style Name',StyleLineEO.STYLE_NAME,'Style Number',StyleLineEO.STYLE_NUMBER)
+       FROM PWC_MFG_BSS_STYLE_L StyleLineEO,
+            pwc_mfg_bss_buyer_h pwcmfgbssbuyerh,
+            PWC_MFG_BSS_SEASON_D SeasonDetailEO   
+       WHERE StyleLineEO.STYLE_IDENTIFIER = HeaderEO.STYLE_NAME
+       AND   pwcmfgbssbuyerh.BUYER_ID = HeaderEO.BUYER_ID
+       --AND   pwcmfgbssbuyerh.ORG_ID = mmoda.final_mfg_org_id
+       AND   StyleLineEO.HEADER_ID = pwcmfgbssbuyerh.HEADER_ID
+       AND   SeasonDetailEO.LINE_ID = StyleLineEO.LINE_ID 
+       AND   rownum = 1)Current_Style,
+       (SELECT SeasonDetailEO.SEASON_NAME
+       FROM PWC_MFG_BSS_STYLE_L StyleLineEO,
+            pwc_mfg_bss_buyer_h pwcmfgbssbuyerh,
+            PWC_MFG_BSS_SEASON_D SeasonDetailEO   
+       WHERE StyleLineEO.STYLE_IDENTIFIER = HeaderEO.STYLE_NAME
+       AND   pwcmfgbssbuyerh.BUYER_ID = HeaderEO.Buyer_Id
+       --AND   pwcmfgbssbuyerh.ORG_ID = mmoda.final_mfg_org_id
+       and   SeasonDetailEO.SEASON_NAME = HeaderEO.SEASON
+       AND   StyleLineEO.HEADER_ID = pwcmfgbssbuyerh.HEADER_ID
+       AND   SeasonDetailEO.LINE_ID = StyleLineEO.LINE_ID 
+       AND   rownum = 1)Current_Season,
+       HeaderEO.POC_ID,
+     
+        pl.system_id,
+
+        ph.BUYER_ID BUYER_ID_NEW,
+        ac.CUSTOMER_NAME BUYER_NEW,
+        ph.SEASON SEASON_NEW,
+        ph.STYLE STYLE_NEW
+    
+FROM MNJ_MFG_ISSUE_REC_WASH_H HeaderEO ,xx_om_poc_h_t ph,xx_om_poc_l_t pl, ar_customers ac     
+where ph.poc_id = pl.poc_id
+AND ph.BUYER_ID = ac.CUSTOMER_ID
+and HeaderEO.POC_ID=ph.poc_id
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            
