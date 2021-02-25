@@ -162,9 +162,9 @@
        ph.style Style_new,
        ph.season Season_new,
        ac.CUSTOMER_NAME Buyer_new
-FROM MNJ_MFG_ISSUE_REC_WASH_H HeaderEO, xx_om_poc_h_t pH, xx_om_poc_L_t pL, ar_customers ac
+FROM MNJ_MFG_ISSUE_REC_WASH_H HeaderEO, xx_om_poc_h_t pH,  ar_customers ac
 where HeaderEO.poc_id=ph.poc_id
- and ph.poc_id = pL.poc_id
+--- and ph.poc_id = pL.poc_id
 AND ph.BUYER_ID = ac.CUSTOMER_ID]]>
   </SQLQuery>
   <EntityUsage

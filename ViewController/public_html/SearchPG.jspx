@@ -44,7 +44,7 @@
                   <af:commandButton actionListener="#{bindings.setCurrentRowWithKey.execute}"
                                     text="Open"
                                     disabled="#{!bindings.setCurrentRowWithKey.enabled}"
-                                    id="cb3" action="goToEdit"/>
+                                    id="cb3" action="goToEdit" visible="false"/>
                   <af:commandButton actionListener="#{bindings.Commit.execute}"
                                     text="Save"
                                     disabled="#{!bindings.Commit.enabled}"
