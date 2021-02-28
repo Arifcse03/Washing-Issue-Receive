@@ -468,8 +468,9 @@ public class MainAMImpl extends ApplicationModuleImpl implements MainAM {
            
            
         try {
-            receiptStyleName =
-                    vo.getCurrentRow().getAttribute("StyleName").toString();
+            receiptStyleName =vo.getCurrentRow().getAttribute("StyleNew").toString();
+                  
+                   // vo.getCurrentRow().getAttribute("StyleName").toString();
             
         } catch (Exception e) {
             // TODO: Add catch code
@@ -478,8 +479,8 @@ public class MainAMImpl extends ApplicationModuleImpl implements MainAM {
         }
         
         try {
-            receiptSeason =
-                    vo.getCurrentRow().getAttribute("Season").toString();
+            receiptSeason =vo.getCurrentRow().getAttribute("SeasonNew").toString();
+                    //vo.getCurrentRow().getAttribute("Season").toString();
             
         } catch (Exception e) {
             // TODO: Add catch code
@@ -490,7 +491,7 @@ public class MainAMImpl extends ApplicationModuleImpl implements MainAM {
         int b;
    
         ViewObject populatevo = getPop_VO1(); // Populate VO
-        populatevo.setWhereClause("RECEIVE_NO = '"+receiptChallanNo+"' AND STYLE_NAME = '"+receiptStyleName+"' AND SEASON ='"+ receiptSeason +"'");
+        populatevo.setWhereClause("RECEIVE_NO = '"+receiptChallanNo+"' AND STYLE = '"+receiptStyleName+"' AND SEASON ='"+ receiptSeason +"'");
         
         populatevo.executeQuery();
       //  populatevo.first();
@@ -540,7 +541,7 @@ public class MainAMImpl extends ApplicationModuleImpl implements MainAM {
                                getIssueChallanNo_Receiving());
                 //getDBTransaction().commit();
                 
-                String currentStn = populatevo.getCurrentRow().getAttribute("Bpo").toString();
+                String currentStn = populatevo.getCurrentRow().getAttribute("BpoId").toString();
                 
                 // 
                 Populate_Sizes(receiptChallanNo ,currentStn );
@@ -568,7 +569,8 @@ public class MainAMImpl extends ApplicationModuleImpl implements MainAM {
         System.out.println("  receiptChallanNo   :"+ receiptChallanNo +"currentStn "+currentStn );
         
         ViewObject populatevo = getsimilarPopSizeVO1(); // Populate VO
-        populatevo.setWhereClause("RECEIVE_NO='"+ receiptChallanNo +"' AND STN='"+currentStn+"'" );
+       //old  populatevo.setWhereClause("RECEIVE_NO='"+ receiptChallanNo +"' AND STN='"+currentStn+"'" );
+       populatevo.setWhereClause("RECEIVE_NO='"+ receiptChallanNo +"' AND BPO_ID='"+currentStn+"'" );
         populatevo.executeQuery();
        // populatevo.first();
       

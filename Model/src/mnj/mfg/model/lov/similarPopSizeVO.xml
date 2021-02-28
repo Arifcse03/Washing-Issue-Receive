@@ -24,7 +24,7 @@
     </SchemaBasedProperties>
   </Properties>
   <SQLQuery>
-    <![CDATA[select attribute1,size_inseam, receive_no ,quantity,header_id,line_id,Attribute2 STN
+    <![CDATA[select attribute1,size_inseam, receive_no ,quantity,header_id,line_id,Attribute2 STN,bpo_id
 from 
 (
 SELECT d.attribute1, d.size_inseam, h.receive_no ,
@@ -42,8 +42,8 @@ SELECT d.attribute1, d.size_inseam, h.receive_no ,
                              WHERE mmbirh1.receving_challan_no = h.receive_no
                                -- AND MMBIRH1.DIVISION_ID         = h.ORG_ID
                                AND ROWNUM = 1)) quantity,
-       h.header_id,l.line_id,l.Attribute2
-  FROM mnj_mfg_issue_rec_wash_h h,
+       h.header_id,l.line_id,l.Attribute2,l.bpo_id
+  FROM mnj_mfg_issue_rec_wash_h h, 
        mnj_mfg_issue_rec_wash_l_h lh,
        mnj_mfg_issue_rec_wash_l l,
        mnj_mfg_issue_inseam_size_d d
@@ -53,7 +53,7 @@ SELECT d.attribute1, d.size_inseam, h.receive_no ,
    and NVL(h.TRANSACTION_TYPE,'PPP') NOT IN ('After Stitch Issue to 3rd Party','After Finish Issue to 3rd party','Ready For Finish Department','PPP')
 UNION ALL
 SELECT d.attribute1, d.size_inseam, h.receive_no , D.quantity,
-       h.header_id,l.line_id,l.Attribute2
+       h.header_id,l.line_id,l.Attribute2,l.bpo_id
   FROM mnj_mfg_issue_rec_wash_h h,
         mnj_mfg_issue_rec_wash_l_h lh,
        mnj_mfg_issue_rec_wash_l l,
@@ -165,6 +165,20 @@ where res.quantity is not null]]>
     SQLType="VARCHAR">
     <DesignTime>
       <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="BpoId"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="BPO_ID"
+    Expression="BPO_ID"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="22"/>
     </DesignTime>
   </ViewAttribute>
   <ViewAttribute

@@ -651,6 +651,8 @@ Double.parseDouble(r.getAttribute("Quantity").toString());
                               getPopulateValue1(poprow, "IssuanceDate"));
 
         vo.setCurrentRow(linerow1);
+        
+        
     } //end of populateLines
     
     public String getPopulateValue1(Row r, String columnName) {

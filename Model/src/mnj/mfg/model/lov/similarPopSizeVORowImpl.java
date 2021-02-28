@@ -84,6 +84,16 @@ public class similarPopSizeVORowImpl extends ViewRowImpl {
             }
         }
         ,
+        BpoId {
+            public Object get(similarPopSizeVORowImpl obj) {
+                return obj.getBpoId();
+            }
+
+            public void put(similarPopSizeVORowImpl obj, Object value) {
+                obj.setBpoId((Number)value);
+            }
+        }
+        ,
         SFLAG {
             public Object get(similarPopSizeVORowImpl obj) {
                 return obj.getSFLAG();
@@ -129,6 +139,7 @@ public class similarPopSizeVORowImpl extends ViewRowImpl {
     public static final int HEADERID = AttributesEnum.HeaderId.index();
     public static final int LINEID = AttributesEnum.LineId.index();
     public static final int STN = AttributesEnum.Stn.index();
+    public static final int BPOID = AttributesEnum.BpoId.index();
     public static final int SFLAG = AttributesEnum.SFLAG.index();
 
     /**
@@ -247,6 +258,22 @@ public class similarPopSizeVORowImpl extends ViewRowImpl {
      */
     public void setStn(String value) {
         setAttributeInternal(STN, value);
+    }
+
+    /**
+     * Gets the attribute value for the calculated attribute BpoId.
+     * @return the BpoId
+     */
+    public Number getBpoId() {
+        return (Number) getAttributeInternal(BPOID);
+    }
+
+    /**
+     * Sets <code>value</code> as the attribute value for the calculated attribute BpoId.
+     * @param value value to set the  BpoId
+     */
+    public void setBpoId(Number value) {
+        setAttributeInternal(BPOID, value);
     }
 
     /**
