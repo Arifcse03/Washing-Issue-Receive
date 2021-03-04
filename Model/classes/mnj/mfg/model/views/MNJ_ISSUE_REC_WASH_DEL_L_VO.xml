@@ -124,51 +124,7 @@
        MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE1,
        MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE2,
        MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE3,
-       /*case statement added by Mr. Sakibul Islam on requiremnet of Mr. Wasi Udin for showing finish_goods_color on 29.Mar.2020*/
-       (SELECT CASE
-                  WHEN    oola.ATTRIBUTE13 IS NULL
-                       OR oola.ATTRIBUTE13 = 'No entry'
-                  THEN
-                     TRIM (
-                        (SELECT FFV.DESCRIPTION
-                           FROM FND_FLEX_VALUES_VL FFV
-                          WHERE     FFV.FLEX_VALUE = msib.segment4
-                                AND FFV.FLEX_VALUE_SET_ID = 1014895
-                                AND FFV.ENABLED_FLAG = 'Y'
-                                AND ROWNUM = 1           -- added on 27 nov 19
-                                              ))
-                  ELSE
-                     oola.ATTRIBUTE13
-               END
-                  Finish_Goods_Color
-          FROM OE_ORDER_HEADERS_ALL OOHA,
-               OE_ORDER_LINES_ALL OOLA,
-               MTL_SYSTEM_ITEMS MSIb
-         WHERE     1 = 1
-               AND OOHA.HEADER_ID = OOLA.HEADER_ID
-               AND MSIb.INVENTORY_ITEM_ID = OOLA.INVENTORY_ITEM_ID -- added on 18 feb 20
-               AND MSIb.ORGANIZATION_ID = 353
-               AND ooha.SHIPPING_INSTRUCTIONS =
-                      MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE5        --'569350'
-               AND ooha.ATTRIBUTE4 = MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE4 --'C3-20 Fall'
-               AND ooha.SOLD_TO_ORG_ID =
-                      (SELECT hca.CUST_ACCOUNT_ID
-                         FROM hz_cust_accounts hca,
-                              hz_parties hp,
-                              ar_customers ac
-                        WHERE     hp.PARTY_ID = hca.PARTY_ID
-                              AND hca.CUST_ACCOUNT_ID = ac.CUSTOMER_ID
-                              AND hp.KNOWN_AS IS NOT NULL
-                              AND ac.STATUS = 'A'
-                              AND ac.CUSTOMER_NAME_PHONETIC = 'M'
-                              AND hp.KNOWN_AS =
-                                     MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE6
-                              AND ROWNUM = 1 --added on 16.oct.18 for temporaray solotion to resolve single row subquery return multiple value  issue
-                                            )                         --'1052'
-               --AND msib.attribute17 = HederEO.WASH         --'BB MH Table#1'
-               AND OOHA.CUST_PO_NUMBER = MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE1
-               AND ROWNUM = 1)
-          Finish_Goods_Color,
+      
        MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE4,
        MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE5,
        MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE6,
@@ -206,69 +162,19 @@
                AND ROWNUM = 1 -- added on 17 oct 18 for temporary issue resolve
                              )
           Buyer_Id,
-       NVL (
-          (SELECT DECODE (StyleLineEO.TRACK_BASIS,
-                          'Style Name', StyleLineEO.STYLE_NAME,
-                          'Style Number', StyleLineEO.STYLE_NUMBER)
-             FROM PWC_MFG_BSS_STYLE_L StyleLineEO,
-                  pwc_mfg_bss_buyer_h pwcmfgbssbuyerh,
-                  PWC_MFG_BSS_SEASON_D SeasonDetailEO
-            WHERE     StyleLineEO.STYLE_IDENTIFIER =
-                         MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE5
-                  AND pwcmfgbssbuyerh.BUYER_ID =
-                         (SELECT DISTINCT hca.cust_account_id
-                            FROM hz_parties hp,
-                                 hz_cust_accounts hca,
-                                 ar_customers ac
-                           WHERE     hp.party_id = hca.party_id
-                                 AND hca.cust_account_id = ac.customer_id
-                                 AND hp.known_as IS NOT NULL
-                                 AND ac.status = 'A'
-                                 AND ac.customer_name_phonetic = 'M'
-                                 AND MNJ_ISSUE_REC_WASH_DEL_L_EO.attribute6 =
-                                        known_as)
-                  --AND   pwcmfgbssbuyerh.ORG_ID = mmoda.final_mfg_org_id
-                  AND StyleLineEO.HEADER_ID = pwcmfgbssbuyerh.HEADER_ID
-                  AND SeasonDetailEO.LINE_ID = StyleLineEO.LINE_ID
-                  AND ROWNUM = 1),
-          MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE5)
-          Current_Style,
-       NVL (
-          (SELECT SeasonDetailEO.SEASON_NAME
-             FROM PWC_MFG_BSS_STYLE_L StyleLineEO,
-                  pwc_mfg_bss_buyer_h pwcmfgbssbuyerh,
-                  PWC_MFG_BSS_SEASON_D SeasonDetailEO
-            WHERE     StyleLineEO.STYLE_IDENTIFIER =
-                         MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE5
-                  AND pwcmfgbssbuyerh.BUYER_ID =
-                         (SELECT DISTINCT hca.cust_account_id
-                            FROM hz_parties hp,
-                                 hz_cust_accounts hca,
-                                 ar_customers ac
-                           WHERE     hp.party_id = hca.party_id
-                                 AND hca.cust_account_id = ac.customer_id
-                                 AND hp.known_as IS NOT NULL
-                                 AND ac.status = 'A'
-                                 AND ac.customer_name_phonetic = 'M'
-                                 AND MNJ_ISSUE_REC_WASH_DEL_L_EO.attribute6 =
-                                        known_as)
-                  --AND   pwcmfgbssbuyerh.ORG_ID = mmoda.final_mfg_org_id
-                  AND SeasonDetailEO.SEASON_NAME =
-                         MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE4
-                  AND StyleLineEO.HEADER_ID = pwcmfgbssbuyerh.HEADER_ID
-                  AND SeasonDetailEO.LINE_ID = StyleLineEO.LINE_ID
-                  AND ROWNUM = 1),
-          MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE4)
-          Current_Season,
-       NVL (
-          (SELECT ooha.attribute12
-             FROM OE_ORDER_HEADERS_ALL ooha
-            WHERE     ooha.CUST_PO_NUMBER =
-                         MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE1
-                  AND ROWNUM = 1),
-          MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE1)
-          CURRENT_BPO
-  FROM MNJ_ISSUE_REC_WASH_DEL_L MNJ_ISSUE_REC_WASH_DEL_L_EO]]>
+MNJ_ISSUE_REC_WASH_DEL_L_EO.Bpo_Id,
+MNJ_ISSUE_REC_WASH_DEL_L_EO.System_Id,
+ac.CUSTOMER_NAME BUYER_NEW,
+p.SEASON SEASON_NEW,
+p.STYLE STYLE_NEW,
+l.color color_new,
+l.wash_name wash_new,
+bpo.BPO BPO_NEW
+
+      
+      
+  FROM MNJ_ISSUE_REC_WASH_DEL_L MNJ_ISSUE_REC_WASH_DEL_L_EO ,XX_OM_POC_H_T p,XX_OM_POC_l_T l,XX_OM_BPO_INFO_T bpo,ar_customers ac
+  where p.poc_id=l.poc_id and l.fob_id=bpo.fob_id and MNJ_ISSUE_REC_WASH_DEL_L_EO.bpo_id=bpo.bpo_id AND p.BUYER_ID =ac.CUSTOMER_ID]]>
   </SQLQuery>
   <EntityUsage
     Name="MNJ_ISSUE_REC_WASH_DEL_L_EO"
@@ -366,21 +272,6 @@
     EntityAttrName="Attribute3"
     EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
     AliasName="ATTRIBUTE3"/>
-  <ViewAttribute
-    Name="FinishGoodsColor"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="240"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="FINISH_GOODS_COLOR"
-    Expression="FINISH_GOODS_COLOR"
-    SQLType="VARCHAR">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="240"/>
-    </DesignTime>
-  </ViewAttribute>
   <ViewAttribute
     Name="Attribute4"
     PrecisionRule="true"
@@ -568,48 +459,105 @@
     </DesignTime>
   </ViewAttribute>
   <ViewAttribute
-    Name="CurrentStyle"
+    Name="BpoId"
+    PrecisionRule="true"
+    EntityAttrName="BpoId"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="BPO_ID"/>
+  <ViewAttribute
+    Name="SystemId"
+    PrecisionRule="true"
+    EntityAttrName="SystemId"
+    EntityUsage="MNJ_ISSUE_REC_WASH_DEL_L_EO"
+    AliasName="SYSTEM_ID"/>
+  <ViewAttribute
+    Name="BuyerNew"
     IsUpdateable="false"
     IsPersistent="false"
     PrecisionRule="true"
-    Precision="250"
+    Precision="50"
     Type="java.lang.String"
     ColumnType="VARCHAR2"
-    AliasName="CURRENT_STYLE"
-    Expression="CURRENT_STYLE"
+    AliasName="BUYER_NEW"
+    Expression="BUYER_NEW"
     SQLType="VARCHAR">
     <DesignTime>
-      <Attr Name="_DisplaySize" Value="250"/>
+      <Attr Name="_DisplaySize" Value="50"/>
     </DesignTime>
   </ViewAttribute>
   <ViewAttribute
-    Name="CurrentSeason"
+    Name="SeasonNew"
     IsUpdateable="false"
     IsPersistent="false"
     PrecisionRule="true"
-    Precision="250"
+    Precision="30"
     Type="java.lang.String"
     ColumnType="VARCHAR2"
-    AliasName="CURRENT_SEASON"
-    Expression="CURRENT_SEASON"
+    AliasName="SEASON_NEW"
+    Expression="SEASON_NEW"
     SQLType="VARCHAR">
     <DesignTime>
-      <Attr Name="_DisplaySize" Value="250"/>
+      <Attr Name="_DisplaySize" Value="30"/>
     </DesignTime>
   </ViewAttribute>
   <ViewAttribute
-    Name="CurrentBpo"
+    Name="StyleNew"
     IsUpdateable="false"
     IsPersistent="false"
     PrecisionRule="true"
-    Precision="250"
+    Precision="100"
     Type="java.lang.String"
     ColumnType="VARCHAR2"
-    AliasName="CURRENT_BPO"
-    Expression="CURRENT_BPO"
+    AliasName="STYLE_NEW"
+    Expression="STYLE_NEW"
     SQLType="VARCHAR">
     <DesignTime>
-      <Attr Name="_DisplaySize" Value="250"/>
+      <Attr Name="_DisplaySize" Value="100"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="ColorNew"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="30"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="COLOR_NEW"
+    Expression="COLOR_NEW"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="30"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="WashNew"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="100"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="WASH_NEW"
+    Expression="WASH_NEW"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="100"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="BpoNew"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="100"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="BPO_NEW"
+    Expression="BPO_NEW"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="100"/>
     </DesignTime>
   </ViewAttribute>
   <ViewLinkAccessor

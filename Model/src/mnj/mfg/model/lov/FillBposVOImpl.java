@@ -15,19 +15,4 @@ public class FillBposVOImpl extends ViewObjectImpl {
     }
 
 
-    /**
-     * Returns the bind variable value for P_RESP_ID.
-     * @return bind variable value for P_RESP_ID
-     */
-    public String getP_RESP_ID() {
-        return (String)getNamedWhereClauseParam("P_RESP_ID");
-    }
-
-    /**
-     * Sets <code>value</code> for bind variable P_RESP_ID.
-     * @param value value to bind as P_RESP_ID
-     */
-    public void setP_RESP_ID(String value) {
-        setNamedWhereClauseParam("P_RESP_ID", value);
-    }
 }

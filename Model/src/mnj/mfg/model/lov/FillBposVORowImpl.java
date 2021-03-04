@@ -14,6 +14,126 @@ public class FillBposVORowImpl extends ViewRowImpl {
      * AttributesEnum: generated enum for identifying attributes and accessors. Do not modify.
      */
     public enum AttributesEnum {
+        BpoId {
+            public Object get(FillBposVORowImpl obj) {
+                return obj.getBpoId();
+            }
+
+            public void put(FillBposVORowImpl obj, Object value) {
+                obj.setBpoId((Number)value);
+            }
+        }
+        ,
+        Bpo {
+            public Object get(FillBposVORowImpl obj) {
+                return obj.getBpo();
+            }
+
+            public void put(FillBposVORowImpl obj, Object value) {
+                obj.setBpo((String)value);
+            }
+        }
+        ,
+        BuyerId {
+            public Object get(FillBposVORowImpl obj) {
+                return obj.getBuyerId();
+            }
+
+            public void put(FillBposVORowImpl obj, Object value) {
+                obj.setBuyerId((Number)value);
+            }
+        }
+        ,
+        Season {
+            public Object get(FillBposVORowImpl obj) {
+                return obj.getSeason();
+            }
+
+            public void put(FillBposVORowImpl obj, Object value) {
+                obj.setSeason((String)value);
+            }
+        }
+        ,
+        Style {
+            public Object get(FillBposVORowImpl obj) {
+                return obj.getStyle();
+            }
+
+            public void put(FillBposVORowImpl obj, Object value) {
+                obj.setStyle((String)value);
+            }
+        }
+        ,
+        Color {
+            public Object get(FillBposVORowImpl obj) {
+                return obj.getColor();
+            }
+
+            public void put(FillBposVORowImpl obj, Object value) {
+                obj.setColor((String)value);
+            }
+        }
+        ,
+        WashName {
+            public Object get(FillBposVORowImpl obj) {
+                return obj.getWashName();
+            }
+
+            public void put(FillBposVORowImpl obj, Object value) {
+                obj.setWashName((String)value);
+            }
+        }
+        ,
+        LcUnit {
+            public Object get(FillBposVORowImpl obj) {
+                return obj.getLcUnit();
+            }
+
+            public void put(FillBposVORowImpl obj, Object value) {
+                obj.setLcUnit((Number)value);
+            }
+        }
+        ,
+        ProductionType {
+            public Object get(FillBposVORowImpl obj) {
+                return obj.getProductionType();
+            }
+
+            public void put(FillBposVORowImpl obj, Object value) {
+                obj.setProductionType((String)value);
+            }
+        }
+        ,
+        Quantity {
+            public Object get(FillBposVORowImpl obj) {
+                return obj.getQuantity();
+            }
+
+            public void put(FillBposVORowImpl obj, Object value) {
+                obj.setQuantity((String)value);
+            }
+        }
+        ,
+        IssueQty {
+            public Object get(FillBposVORowImpl obj) {
+                return obj.getIssueQty();
+            }
+
+            public void put(FillBposVORowImpl obj, Object value) {
+                obj.setIssueQty((Number)value);
+            }
+        }
+        ,
+        SystemId {
+            public Object get(FillBposVORowImpl obj) {
+                return obj.getSystemId();
+            }
+
+            public void put(FillBposVORowImpl obj, Object value) {
+                obj.setSystemId((Number)value);
+            }
+        }
+        ,
         BpoNo {
             public Object get(FillBposVORowImpl obj) {
                 return obj.getBpoNo();
@@ -44,16 +164,6 @@ public class FillBposVORowImpl extends ViewRowImpl {
             }
         }
         ,
-        Color {
-            public Object get(FillBposVORowImpl obj) {
-                return obj.getColor();
-            }
-
-            public void put(FillBposVORowImpl obj, Object value) {
-                obj.setColor((String)value);
-            }
-        }
-        ,
         FinishGoodsColor {
             public Object get(FillBposVORowImpl obj) {
                 return obj.getFinishGoodsColor();
@@ -64,46 +174,6 @@ public class FillBposVORowImpl extends ViewRowImpl {
             }
         }
         ,
-        Season {
-            public Object get(FillBposVORowImpl obj) {
-                return obj.getSeason();
-            }
-
-            public void put(FillBposVORowImpl obj, Object value) {
-                obj.setSeason((String)value);
-            }
-        }
-        ,
-        Style {
-            public Object get(FillBposVORowImpl obj) {
-                return obj.getStyle();
-            }
-
-            public void put(FillBposVORowImpl obj, Object value) {
-                obj.setStyle((String)value);
-            }
-        }
-        ,
-        Quantity {
-            public Object get(FillBposVORowImpl obj) {
-                return obj.getQuantity();
-            }
-
-            public void put(FillBposVORowImpl obj, Object value) {
-                obj.setQuantity((String)value);
-            }
-        }
-        ,
-        ProductionType {
-            public Object get(FillBposVORowImpl obj) {
-                return obj.getProductionType();
-            }
-
-            public void put(FillBposVORowImpl obj, Object value) {
-                obj.setProductionType((String)value);
-            }
-        }
-        ,
         Buyer {
             public Object get(FillBposVORowImpl obj) {
                 return obj.getBuyer();
@@ -111,16 +181,6 @@ public class FillBposVORowImpl extends ViewRowImpl {
 
             public void put(FillBposVORowImpl obj, Object value) {
                 obj.setBuyer((String)value);
-            }
-        }
-        ,
-        BuyerId {
-            public Object get(FillBposVORowImpl obj) {
-                return obj.getBuyerId();
-            }
-
-            public void put(FillBposVORowImpl obj, Object value) {
-                obj.setBuyerId((Number)value);
             }
         }
         ,
@@ -171,16 +231,6 @@ public class FillBposVORowImpl extends ViewRowImpl {
 
             public void put(FillBposVORowImpl obj, Object value) {
                 obj.setWashUnwash((String)value);
-            }
-        }
-        ,
-        IssueQty {
-            public Object get(FillBposVORowImpl obj) {
-                return obj.getIssueQty();
-            }
-
-            public void put(FillBposVORowImpl obj, Object value) {
-                obj.setIssueQty((Number)value);
             }
         }
         ,
@@ -262,23 +312,28 @@ public class FillBposVORowImpl extends ViewRowImpl {
     }
 
 
+    public static final int BPOID = AttributesEnum.BpoId.index();
+    public static final int BPO = AttributesEnum.Bpo.index();
+    public static final int BUYERID = AttributesEnum.BuyerId.index();
+    public static final int SEASON = AttributesEnum.Season.index();
+    public static final int STYLE = AttributesEnum.Style.index();
+    public static final int COLOR = AttributesEnum.Color.index();
+    public static final int WASHNAME = AttributesEnum.WashName.index();
+    public static final int LCUNIT = AttributesEnum.LcUnit.index();
+    public static final int PRODUCTIONTYPE = AttributesEnum.ProductionType.index();
+    public static final int QUANTITY = AttributesEnum.Quantity.index();
+    public static final int ISSUEQTY = AttributesEnum.IssueQty.index();
+    public static final int SYSTEMID = AttributesEnum.SystemId.index();
     public static final int BPONO = AttributesEnum.BpoNo.index();
     public static final int CURRENTBPO = AttributesEnum.CurrentBpo.index();
     public static final int STNNUMBER = AttributesEnum.StnNumber.index();
-    public static final int COLOR = AttributesEnum.Color.index();
     public static final int FINISHGOODSCOLOR = AttributesEnum.FinishGoodsColor.index();
-    public static final int SEASON = AttributesEnum.Season.index();
-    public static final int STYLE = AttributesEnum.Style.index();
-    public static final int QUANTITY = AttributesEnum.Quantity.index();
-    public static final int PRODUCTIONTYPE = AttributesEnum.ProductionType.index();
     public static final int BUYER = AttributesEnum.Buyer.index();
-    public static final int BUYERID = AttributesEnum.BuyerId.index();
     public static final int CURRENTSTYLE = AttributesEnum.CurrentStyle.index();
     public static final int CURRENTSEASON = AttributesEnum.CurrentSeason.index();
     public static final int UNIT = AttributesEnum.Unit.index();
     public static final int WASHEMDPRINTINV = AttributesEnum.WashEmdPrintInv.index();
     public static final int WASHUNWASH = AttributesEnum.WashUnwash.index();
-    public static final int ISSUEQTY = AttributesEnum.IssueQty.index();
     public static final int FLAG = AttributesEnum.Flag.index();
     public static final int FLAGNEW = AttributesEnum.FlagNew.index();
     public static final int STN = AttributesEnum.Stn.index();
@@ -289,6 +344,38 @@ public class FillBposVORowImpl extends ViewRowImpl {
      * This is the default constructor (do not remove).
      */
     public FillBposVORowImpl() {
+    }
+
+    /**
+     * Gets the attribute value for the calculated attribute BpoId.
+     * @return the BpoId
+     */
+    public Number getBpoId() {
+        return (Number) getAttributeInternal(BPOID);
+    }
+
+    /**
+     * Sets <code>value</code> as the attribute value for the calculated attribute BpoId.
+     * @param value value to set the  BpoId
+     */
+    public void setBpoId(Number value) {
+        setAttributeInternal(BPOID, value);
+    }
+
+    /**
+     * Gets the attribute value for the calculated attribute Bpo.
+     * @return the Bpo
+     */
+    public String getBpo() {
+        return (String) getAttributeInternal(BPO);
+    }
+
+    /**
+     * Sets <code>value</code> as the attribute value for the calculated attribute Bpo.
+     * @param value value to set the  Bpo
+     */
+    public void setBpo(String value) {
+        setAttributeInternal(BPO, value);
     }
 
     /**
@@ -356,6 +443,38 @@ public class FillBposVORowImpl extends ViewRowImpl {
         setAttributeInternal(COLOR, value);
     }
 
+
+    /**
+     * Gets the attribute value for the calculated attribute WashName.
+     * @return the WashName
+     */
+    public String getWashName() {
+        return (String) getAttributeInternal(WASHNAME);
+    }
+
+    /**
+     * Sets <code>value</code> as the attribute value for the calculated attribute WashName.
+     * @param value value to set the  WashName
+     */
+    public void setWashName(String value) {
+        setAttributeInternal(WASHNAME, value);
+    }
+
+    /**
+     * Gets the attribute value for the calculated attribute LcUnit.
+     * @return the LcUnit
+     */
+    public Number getLcUnit() {
+        return (Number) getAttributeInternal(LCUNIT);
+    }
+
+    /**
+     * Sets <code>value</code> as the attribute value for the calculated attribute LcUnit.
+     * @param value value to set the  LcUnit
+     */
+    public void setLcUnit(Number value) {
+        setAttributeInternal(LCUNIT, value);
+    }
 
     /**
      * Gets the attribute value for the calculated attribute FinishGoodsColor.
@@ -563,6 +682,22 @@ public class FillBposVORowImpl extends ViewRowImpl {
      */
     public void setIssueQty(Number value) {
         setAttributeInternal(ISSUEQTY, value);
+    }
+
+    /**
+     * Gets the attribute value for the calculated attribute SystemId.
+     * @return the SystemId
+     */
+    public Number getSystemId() {
+        return (Number) getAttributeInternal(SYSTEMID);
+    }
+
+    /**
+     * Sets <code>value</code> as the attribute value for the calculated attribute SystemId.
+     * @param value value to set the  SystemId
+     */
+    public void setSystemId(Number value) {
+        setAttributeInternal(SYSTEMID, value);
     }
 
     /**

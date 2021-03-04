@@ -23,391 +23,88 @@
         ResId="mnj.mfg.model.lov.FillBposVO_LABEL"/>
     </SchemaBasedProperties>
   </Properties>
-  <Variable
-    Name="P_RESP_ID"
-    Kind="where"
-    Type="java.lang.String">
-    <TransientExpression><![CDATA[adf.context.sessionScope.respId]]></TransientExpression>
-  </Variable>
   <SQLQuery>
-    <![CDATA[SELECT aaa.BPO_NO,
-       NVL ( (SELECT ooha.attribute12
-                FROM oe_order_headers_all ooha
-               WHERE ooha.cust_po_number = aaa.BPO_NO AND ROWNUM = 1),
-            aaa.BPO_NO)
-          current_bpo,
-       aaa.STN_NUMBER,
-       aaa.COLOR,
-       aaa.finish_goods_color,
-       aaa.SEASON,
-       aaa.STYLE,
-         aaa.quantity
-       - NVL (
-            (SELECT SUM (NVL (MNJ_ISSUE_REC_WASH_DEL_L_EO.QUANTITY, 0))
-               FROM MNJ_ISSUE_REC_WASH_DEL_L MNJ_ISSUE_REC_WASH_DEL_L_EO
-              WHERE     MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE1 = aaa.bpo_no
-                    AND MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE2 =
-                           aaa.stn_number
-                    AND MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE3 = aaa.color
-                    AND MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE4 = aaa.season
-                    AND MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE5 = aaa.style
-                    AND MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE6 = aaa.buyer),
-            0)
-          QUANTITY,
-       aaa.PRODUCTION_TYPE,
-       aaa.BUYER,
-       aaa.BUYER_ID,
-       aaa.CURRENT_STYLE,
-       aaa.CURRENT_SEASON,
-       aaa.UNIT,
-       aaa.WASH_EMD_PRINT_INV,
-       aaa.WASH_UNWASH,
-       NVL (
-          (SELECT SUM (NVL (MNJ_ISSUE_REC_WASH_DEL_L_EO.QUANTITY, 0))
-             FROM MNJ_ISSUE_REC_WASH_DEL_L MNJ_ISSUE_REC_WASH_DEL_L_EO
-            WHERE     MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE1 = aaa.bpo_no
-                  AND MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE2 = aaa.stn_number
-                  AND MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE3 = aaa.color
-                  AND MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE4 = aaa.season
-                  AND MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE5 = aaa.style
-                  AND MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE6 = aaa.buyer),
-          0)
-          ISSUE_QTY
-  FROM (  SELECT aa.*,
-                 CASE
-                    WHEN stn_number =
-                            (SELECT DISTINCT
-                                       OOHA.CUST_PO_NUMBER
-                                    || '/'
-                                    || oola.LINE_NUMBER
-                                       STN
-                               FROM OE_ORDER_HEADERS_ALL OOHA,
-                                    OE_ORDER_LINES_ALL OOLA,
-                                    MTL_SYSTEM_ITEMS_b MSIb,
-                                    MNJ_MFG_WASH_QUALITY_L wql
-                              WHERE     OOHA.HEADER_ID = OOLA.HEADER_ID
-                                    AND MSIb.INVENTORY_ITEM_ID =
-                                           OOLA.ORDERED_ITEM_ID
-                                    AND MSIb.ORGANIZATION_ID = 353
-                                    AND ooha.ATTRIBUTE3 = 'BPO'
-                                    AND ooha.SHIPPING_INSTRUCTIONS = wql.STYLE
-                                    AND ooha.ATTRIBUTE4 = wql.season
-                                    AND ooha.SOLD_TO_ORG_ID = wql.BUYER_ID
-                                    AND wql.BUYER_ID = aa.BUYER_ID
-                                    AND wql.STYLE = STYLE
-                                    AND wql.season = season
-                                    AND    OOHA.CUST_PO_NUMBER
-                                        || '/'
-                                        || oola.LINE_NUMBER IN (SELECT l.STN
-                                                                  FROM mnj_mfg_osp_header h,
-                                                                       mnj_mfg_osp_stn_line l
-                                                                 WHERE     h.header_id =
-                                                                              l.header_id
-                                                                       AND h.BUYER_D =
-                                                                              aa.BUYER_ID
-                                                                       AND h.STYLE =
-                                                                              STYLE
-                                                                       AND h.season =
-                                                                              season)
-                                    AND    OOHA.CUST_PO_NUMBER
-                                        || '/'
-                                        || oola.LINE_NUMBER = stn_number)
-                    THEN
-                       'Wash'
-                    ELSE
-                       'Unwash'
-                 END
-                    Wash_Unwash
-            FROM (  SELECT l.attribute1 bpo_no,
-                           l.attribute2 stn_number,
-                           l.attribute3 color,
-                           /*case statement added by Mr. Sakibul Islam on requiremnet of Mr. Wasi Udin for showing finish_goods_color on 29.Mar.2020*/
-                           (SELECT CASE
-                                      WHEN    oola.ATTRIBUTE13 IS NULL
-                                           OR oola.ATTRIBUTE13 = 'No entry'
-                                      THEN
-                                         TRIM (
-                                            (SELECT FFV.DESCRIPTION
-                                               FROM FND_FLEX_VALUES_VL FFV
-                                              WHERE     FFV.FLEX_VALUE =
-                                                           msib.segment4
-                                                    AND FFV.FLEX_VALUE_SET_ID =
-                                                           1014895
-                                                    AND FFV.ENABLED_FLAG = 'Y'
-                                                    AND ROWNUM = 1 -- added on 27 nov 19
-                                                                  ))
-                                      ELSE
-                                         oola.ATTRIBUTE13
-                                   END
-                                      Finish_Goods_Color
-                              FROM OE_ORDER_HEADERS_ALL OOHA,
-                                   OE_ORDER_LINES_ALL OOLA,
-                                   MTL_SYSTEM_ITEMS MSIb
-                             WHERE     1 = 1
-                                   AND OOHA.HEADER_ID = OOLA.HEADER_ID
-                                   AND MSIb.INVENTORY_ITEM_ID =
-                                          OOLA.INVENTORY_ITEM_ID -- added on 18 feb 20
-                                   AND MSIb.ORGANIZATION_ID = 353
-                                   AND ooha.SHIPPING_INSTRUCTIONS = h.style_name --'569350'
-                                   AND ooha.ATTRIBUTE4 = h.season --'C3-20 Fall'
-                                   AND ooha.SOLD_TO_ORG_ID =
-                                          (SELECT hca.CUST_ACCOUNT_ID
-                                             FROM hz_cust_accounts hca,
-                                                  hz_parties hp,
-                                                  ar_customers ac
-                                            WHERE     hp.PARTY_ID = hca.PARTY_ID
-                                                  AND hca.CUST_ACCOUNT_ID =
-                                                         ac.CUSTOMER_ID
-                                                  AND hp.KNOWN_AS IS NOT NULL
-                                                  AND ac.STATUS = 'A'
-                                                  AND ac.CUSTOMER_NAME_PHONETIC =
-                                                         'M'
-                                                  AND hp.KNOWN_AS = h.attribute5
-                                                  AND ROWNUM = 1 --added on 16.oct.18 for temporaray solotion to resolve single row subquery return multiple value  issue
-                                                                )     --'1052'
-                                   --AND msib.attribute17 = h.style_name
-                                   --'BB MH Table#1'
-                                   AND OOHA.CUST_PO_NUMBER = l.attribute1
-                                   AND ROWNUM = 1)
-                              Finish_Goods_Color,
-                           h.season season,
-                           h.style_name style,
-                           SUM (TO_NUMBER (NVL (l.attribute4, 0))) Quantity,
-                           /*-
-                           nvl( (select sum(dl.Quantity)
-                                     from MNJ_ISSUE_REC_WASH_DEL_L dl
-                                      where dl.attribute1=l.attribute1
-                                      and dl.attribute2=l.attribute2
-                                      and dl.attribute3=l.attribute3
-                                      and dl.attribute4= h.season
-                                      and dl.attribute5=h.style_name
-                                      and dl.Production_Type=l.Production_Type ),0)*/
-                           l.Production_Type,
-                           h.attribute5 Buyer,
-                           (SELECT hca.CUST_ACCOUNT_ID
-                              FROM hz_cust_accounts hca,
-                                   hz_parties hp,
-                                   ar_customers ac
-                             WHERE     hp.PARTY_ID = hca.PARTY_ID
-                                   AND hca.CUST_ACCOUNT_ID = ac.CUSTOMER_ID
-                                   AND hp.KNOWN_AS IS NOT NULL
-                                   AND ac.STATUS = 'A'
-                                   AND ac.CUSTOMER_NAME_PHONETIC = 'M'
-                                   AND hp.KNOWN_AS = h.attribute5
-                                   AND ROWNUM = 1 --added on 16.oct.18 for temporaray solotion to resolve single row subquery return multiple value  issue
-                                                 )
-                              Buyer_Id,
-                           (SELECT DECODE (
-                                      StyleLineEO.TRACK_BASIS,
-                                      'Style Name', StyleLineEO.STYLE_NAME,
-                                      'Style Number', StyleLineEO.STYLE_NUMBER)
-                              FROM PWC_MFG_BSS_STYLE_L StyleLineEO,
-                                   pwc_mfg_bss_buyer_h pwcmfgbssbuyerh,
-                                   PWC_MFG_BSS_SEASON_D SeasonDetailEO
-                             WHERE     StyleLineEO.STYLE_IDENTIFIER =
-                                          h.STYLE_NAME
-                                   AND pwcmfgbssbuyerh.BUYER_ID IN (SELECT hca.CUST_ACCOUNT_ID
-                                                                      FROM hz_cust_accounts hca,
-                                                                           hz_parties hp,
-                                                                           ar_customers ac
-                                                                     WHERE     hp.PARTY_ID =
-                                                                                  hca.PARTY_ID
-                                                                           AND hca.CUST_ACCOUNT_ID =
-                                                                                  ac.CUSTOMER_ID
-                                                                           AND hp.KNOWN_AS
-                                                                                  IS NOT NULL
-                                                                           AND ac.STATUS =
-                                                                                  'A'
-                                                                           AND ac.CUSTOMER_NAME_PHONETIC =
-                                                                                  'M'
-                                                                           AND hp.KNOWN_AS =
-                                                                                  h.attribute5)
-                                   AND StyleLineEO.HEADER_ID =
-                                          pwcmfgbssbuyerh.HEADER_ID
-                                   AND SeasonDetailEO.LINE_ID =
-                                          StyleLineEO.LINE_ID
-                                   AND ROWNUM = 1)
-                              Current_Style,
-                           (SELECT SeasonDetailEO.SEASON_NAME
-                              FROM PWC_MFG_BSS_STYLE_L StyleLineEO,
-                                   pwc_mfg_bss_buyer_h pwcmfgbssbuyerh,
-                                   PWC_MFG_BSS_SEASON_D SeasonDetailEO
-                             WHERE     StyleLineEO.STYLE_IDENTIFIER =
-                                          h.STYLE_NAME
-                                   AND pwcmfgbssbuyerh.BUYER_ID IN (SELECT hca.CUST_ACCOUNT_ID
-                                                                      FROM hz_cust_accounts hca,
-                                                                           hz_parties hp,
-                                                                           ar_customers ac
-                                                                     WHERE     hp.PARTY_ID =
-                                                                                  hca.PARTY_ID
-                                                                           AND hca.CUST_ACCOUNT_ID =
-                                                                                  ac.CUSTOMER_ID
-                                                                           AND hp.KNOWN_AS
-                                                                                  IS NOT NULL
-                                                                           AND ac.STATUS =
-                                                                                  'A'
-                                                                           AND ac.CUSTOMER_NAME_PHONETIC =
-                                                                                  'M'
-                                                                           AND hp.KNOWN_AS =
-                                                                                  h.attribute5)
-                                   AND SeasonDetailEO.SEASON_NAME = h.season
-                                   AND StyleLineEO.HEADER_ID =
-                                          pwcmfgbssbuyerh.HEADER_ID
-                                   AND SeasonDetailEO.LINE_ID =
-                                          StyleLineEO.LINE_ID
-                                   AND ROWNUM = 1)
-                              Current_Season,
-                           h.unit,
-                           l.WASH_EMD_PRINT_INV
-                      /*,
-                   (select distinct haou.organization_id
-                     from hr_all_organization_units haou
-                      where haou.name = h.unit)Unit*/
-                      FROM mnj_mfg_issue_rec_wash_h h,
-                           mnj_issue_rec_wash_rec_l l,
-                           (  SELECT frv.RESPONSIBILITY_ID, hou.ORGANIZATION_ID
-                                FROM apps.fnd_profile_options_vl fpo,
-                                     apps.fnd_responsibility_vl frv,
-                                     apps.fnd_profile_option_values fpov,
-                                     apps.hr_organization_units hou
-                               WHERE     fpov.profile_option_value =
-                                            TO_CHAR (hou.organization_id)
-                                     --AND fpov.profile_option_value = '357'
-                                     AND fpo.profile_option_id =
-                                            fpov.profile_option_id
-                                     AND fpo.user_profile_option_name =
-                                            'MO: Operating Unit'
-                                     AND frv.responsibility_id = fpov.level_value
-                                     --AND ood.OPERATING_UNIT = hou.ORGANIZATION_ID
-                                     AND frv.RESPONSIBILITY_ID = :P_RESP_ID
-                            ORDER BY frv.responsibility_name) a
-                     WHERE     h.header_id = l.header_id
-                           AND a.ORGANIZATION_ID = l.WASH_EMD_PRINT_INV
-                  /*
-                  AND  a.RESPONSIBILITY_ID  = :P_RESP_ID
-                  */
-                  GROUP BY l.attribute1,
-                           l.attribute2,
-                           l.attribute3,
-                           h.season,
-                           h.style_name,
-                           l.Production_Type,
-                           h.attribute5,
-                           h.Unit,
-                           l.WASH_EMD_PRINT_INV) aa
-        --where Quantity <> 0
-        -- and Unit = nvl(:P_Master_Unit,:p_org)
-        ORDER BY 1) aaa
- WHERE   aaa.quantity
-       - NVL (
-            (SELECT SUM (NVL (MNJ_ISSUE_REC_WASH_DEL_L_EO.QUANTITY, 0))
-               FROM MNJ_ISSUE_REC_WASH_DEL_L MNJ_ISSUE_REC_WASH_DEL_L_EO
-              WHERE     MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE1 = aaa.bpo_no
-                    AND MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE2 =
-                           aaa.stn_number
-                    AND MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE3 = aaa.color
-                    AND MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE4 = aaa.season
-                    AND MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE5 = aaa.style
-                    AND MNJ_ISSUE_REC_WASH_DEL_L_EO.ATTRIBUTE6 = aaa.buyer),
-            0) <> 0]]>
+    <![CDATA[/*Formatted on 3/4/2021 4:21:44 PM (QP5 v5.256.13226.35538) */
+select * from(
+SELECT OOBA.BPO_ID,
+OOBA.BPO,
+OOHA.BUYER_ID,
+OOHA.SEASON,
+OOHA.STYLE,
+OOLA.COLOR,
+OOLA.WASH_NAME,
+OOHA.LC_UNIT,
+L.PRODUCTION_TYPE,
+NVL(l.ATTRIBUTE4,0)
+- NVL (
+(SELECT SUM (NVL (MNJ_ISSUE_REC_WASH_DEL_L_EO.QUANTITY, 0))
+FROM MNJ_ISSUE_REC_WASH_DEL_L MNJ_ISSUE_REC_WASH_DEL_L_EO
+WHERE MNJ_ISSUE_REC_WASH_DEL_L_EO.BPO_ID = OOBA.bpo_ID
+AND MNJ_ISSUE_REC_WASH_DEL_L_EO.SYSTEM_ID =
+OOLA.SYSTEM_ID),
+0)
+QUANTITY,
+NVL (
+(SELECT SUM (NVL (MNJ_ISSUE_REC_WASH_DEL_L_EO.QUANTITY, 0))
+FROM MNJ_ISSUE_REC_WASH_DEL_L MNJ_ISSUE_REC_WASH_DEL_L_EO
+WHERE MNJ_ISSUE_REC_WASH_DEL_L_EO.BPO_ID = OOBA.bpo_ID
+AND MNJ_ISSUE_REC_WASH_DEL_L_EO.SYSTEM_ID = OOLA.SYSTEM_ID),
+0)
+ISSUE_QTY,
+OOLA.System_Id
+FROM mnj_mfg_issue_rec_wash_h h,
+mnj_issue_rec_wash_rec_l l,
+xx_om_poc_h_t OOHA,
+xx_om_poc_l_t OOLA,
+xx_om_bpo_info_t OOBA
+WHERE h.header_id = l.header_id
+AND OOHA.POC_ID = H.POC_ID
+AND OOHA.POC_ID = OOLA.POC_ID
+AND OOLA.FOB_ID = OOBA.FOB_ID
+AND L.BPO_ID = OOBA.BPO_ID) where QUANTITY>0]]>
   </SQLQuery>
   <ViewAttribute
-    Name="BpoNo"
+    Name="BpoId"
     IsUpdateable="false"
     IsPersistent="false"
+    IsNotNull="true"
     PrecisionRule="true"
-    Precision="250"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="BPO_NO"
-    Expression="BPO_NO"
-    SQLType="VARCHAR">
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="BPO_ID"
+    Expression="BPO_ID"
+    SQLType="NUMERIC">
     <DesignTime>
-      <Attr Name="_DisplaySize" Value="250"/>
-    </DesignTime>
-    <Properties>
-      <SchemaBasedProperties>
-        <LABEL
-          ResId="mnj.mfg.model.lov.FillBposVO.BpoNo_LABEL"/>
-        <DISPLAYWIDTH
-          Value="25"/>
-      </SchemaBasedProperties>
-    </Properties>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="CurrentBpo"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="250"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="CURRENT_BPO"
-    Expression="CURRENT_BPO"
-    SQLType="VARCHAR">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="250"/>
+      <Attr Name="_DisplaySize" Value="39"/>
     </DesignTime>
   </ViewAttribute>
   <ViewAttribute
-    Name="StnNumber"
+    Name="Bpo"
     IsUpdateable="false"
     IsPersistent="false"
     PrecisionRule="true"
-    Precision="250"
+    Precision="100"
     Type="java.lang.String"
     ColumnType="VARCHAR2"
-    AliasName="STN_NUMBER"
-    Expression="STN_NUMBER"
+    AliasName="BPO"
+    Expression="BPO"
     SQLType="VARCHAR">
     <DesignTime>
-      <Attr Name="_DisplaySize" Value="250"/>
+      <Attr Name="_DisplaySize" Value="100"/>
     </DesignTime>
-    <Properties>
-      <SchemaBasedProperties>
-        <LABEL
-          ResId="mnj.mfg.model.lov.FillBposVO.StnNumber_LABEL"/>
-        <DISPLAYWIDTH
-          Value="25"/>
-      </SchemaBasedProperties>
-    </Properties>
   </ViewAttribute>
   <ViewAttribute
-    Name="Color"
+    Name="BuyerId"
     IsUpdateable="false"
     IsPersistent="false"
     PrecisionRule="true"
-    Precision="240"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="COLOR"
-    Expression="COLOR"
-    SQLType="VARCHAR">
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="BUYER_ID"
+    Expression="BUYER_ID"
+    SQLType="NUMERIC">
     <DesignTime>
-      <Attr Name="_DisplaySize" Value="240"/>
-    </DesignTime>
-    <Properties>
-      <SchemaBasedProperties>
-        <LABEL
-          ResId="mnj.mfg.model.lov.FillBposVO.Color_LABEL"/>
-        <DISPLAYWIDTH
-          Value="25"/>
-      </SchemaBasedProperties>
-    </Properties>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="FinishGoodsColor"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="240"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="FINISH_GOODS_COLOR"
-    Expression="FINISH_GOODS_COLOR"
-    SQLType="VARCHAR">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="240"/>
+      <Attr Name="_DisplaySize" Value="39"/>
     </DesignTime>
   </ViewAttribute>
   <ViewAttribute
@@ -455,25 +152,56 @@
     </Properties>
   </ViewAttribute>
   <ViewAttribute
-    Name="Quantity"
+    Name="Color"
     IsUpdateable="false"
     IsPersistent="false"
     PrecisionRule="true"
-    Precision="250"
+    Precision="240"
     Type="java.lang.String"
     ColumnType="VARCHAR2"
-    AliasName="QUANTITY"
-    Expression="QUANTITY"
+    AliasName="COLOR"
+    Expression="COLOR"
     SQLType="VARCHAR">
     <DesignTime>
-      <Attr Name="_DisplaySize" Value="250"/>
+      <Attr Name="_DisplaySize" Value="240"/>
     </DesignTime>
     <Properties>
       <SchemaBasedProperties>
+        <LABEL
+          ResId="mnj.mfg.model.lov.FillBposVO.Color_LABEL"/>
         <DISPLAYWIDTH
-          Value="20"/>
+          Value="25"/>
       </SchemaBasedProperties>
     </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="WashName"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="100"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="WASH_NAME"
+    Expression="WASH_NAME"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="100"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="LcUnit"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="LC_UNIT"
+    Expression="LC_UNIT"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
   </ViewAttribute>
   <ViewAttribute
     Name="ProductionType"
@@ -497,6 +225,127 @@
     </Properties>
   </ViewAttribute>
   <ViewAttribute
+    Name="Quantity"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="QUANTITY"
+    Expression="QUANTITY"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="20"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="IssueQty"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="ISSUE_QTY"
+    Expression="ISSUE_QTY"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="SystemId"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="SYSTEM_ID"
+    Expression="SYSTEM_ID"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="BpoNo"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="BPO_NO"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
+        <LABEL
+          ResId="mnj.mfg.model.lov.FillBposVO.BpoNo_LABEL"/>
+        <DISPLAYWIDTH
+          Value="25"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="CurrentBpo"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="CURRENT_BPO"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="StnNumber"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="STN_NUMBER"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
+        <LABEL
+          ResId="mnj.mfg.model.lov.FillBposVO.StnNumber_LABEL"/>
+        <DISPLAYWIDTH
+          Value="25"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="FinishGoodsColor"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="240"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="FINISH_GOODS_COLOR"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="240"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
     Name="Buyer"
     IsUpdateable="false"
     IsPersistent="false"
@@ -505,24 +354,9 @@
     Type="java.lang.String"
     ColumnType="VARCHAR2"
     AliasName="BUYER"
-    Expression="BUYER"
     SQLType="VARCHAR">
     <DesignTime>
       <Attr Name="_DisplaySize" Value="250"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="BuyerId"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="BUYER_ID"
-    Expression="BUYER_ID"
-    SQLType="NUMERIC">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="39"/>
     </DesignTime>
   </ViewAttribute>
   <ViewAttribute
@@ -534,7 +368,6 @@
     Type="java.lang.String"
     ColumnType="VARCHAR2"
     AliasName="CURRENT_STYLE"
-    Expression="CURRENT_STYLE"
     SQLType="VARCHAR">
     <DesignTime>
       <Attr Name="_DisplaySize" Value="250"/>
@@ -557,7 +390,6 @@
     Type="java.lang.String"
     ColumnType="VARCHAR2"
     AliasName="CURRENT_SEASON"
-    Expression="CURRENT_SEASON"
     SQLType="VARCHAR">
     <DesignTime>
       <Attr Name="_DisplaySize" Value="250"/>
@@ -580,7 +412,6 @@
     Type="java.lang.String"
     ColumnType="VARCHAR2"
     AliasName="UNIT"
-    Expression="UNIT"
     SQLType="VARCHAR">
     <DesignTime>
       <Attr Name="_DisplaySize" Value="240"/>
@@ -594,7 +425,6 @@
     Type="oracle.jbo.domain.Number"
     ColumnType="NUMBER"
     AliasName="WASH_EMD_PRINT_INV"
-    Expression="WASH_EMD_PRINT_INV"
     SQLType="NUMERIC">
     <DesignTime>
       <Attr Name="_DisplaySize" Value="39"/>
@@ -609,24 +439,9 @@
     Type="java.lang.String"
     ColumnType="VARCHAR2"
     AliasName="WASH_UNWASH"
-    Expression="WASH_UNWASH"
     SQLType="VARCHAR">
     <DesignTime>
       <Attr Name="_DisplaySize" Value="6"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="IssueQty"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="ISSUE_QTY"
-    Expression="ISSUE_QTY"
-    SQLType="NUMERIC">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="39"/>
     </DesignTime>
   </ViewAttribute>
   <ViewAttribute

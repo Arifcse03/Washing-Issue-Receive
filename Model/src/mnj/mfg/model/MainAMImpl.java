@@ -125,8 +125,14 @@ public class MainAMImpl extends ApplicationModuleImpl implements MainAM {
         System.out.println("Wher clause style -->" + getstyle());
 
         ViewObject vo = getpapulateSizeVo1();
-        vo.setWhereClause("STYLE = '" + getstyle() + "' AND BPO_NO = '" +
-                          getBpo() + "'");
+//        vo.setWhereClause("STYLE = '" + getstyle() + "' AND BPO_NO = '" +
+//                          getBpo() + "'");
+        
+        
+        /**added by arif 4 march 2021**/
+        vo.setWhereClause("BPO_ID = '" +
+                                 getBpo() + "'");
+        
         vo.executeQuery();
     }
 
@@ -321,7 +327,7 @@ public class MainAMImpl extends ApplicationModuleImpl implements MainAM {
 
         Row linerow = getRollBPO();
 
-        linerow.setAttribute("Attribute1", getPopulateValue(poprow, "BpoNo"));
+        /* linerow.setAttribute("Attribute1", getPopulateValue(poprow, "BpoNo"));
         linerow.setAttribute("Attribute2",
                              getPopulateValue(poprow, "StnNumber"));
         linerow.setAttribute("Attribute3", getPopulateValue(poprow, "Color"));
@@ -332,9 +338,21 @@ public class MainAMImpl extends ApplicationModuleImpl implements MainAM {
                              getPopulateValue(poprow, "ProductionType"));
         linerow.setAttribute("Attribute6", getPopulateValue(poprow, "Buyer"));
         linerow.setAttribute("Attribute7",
-                             getPopulateValue(poprow, "WashUnwash"));
+                             getPopulateValue(poprow, "WashUnwash"));*/
         // ViewObject popup = getFillBposVO1();
         // popup.executeQuery();
+        
+        /***change for restructuring  by arif 4 march 2021***/
+        
+        linerow.setAttribute("BpoId", getPopulateValue(poprow, "BpoId"));
+                linerow.setAttribute("Quantity", getPopulateValue(poprow, "Quantity"));
+                linerow.setAttribute("ProductionType",
+                                     getPopulateValue(poprow, "ProductionType"));
+         
+        
+        
+        
+        
 
     } //end of populateLines
 
@@ -367,7 +385,7 @@ public class MainAMImpl extends ApplicationModuleImpl implements MainAM {
     public String getBpo() {
         String Result = null;
         ViewObject vo = getMNJ_ISSUE_REC_WASH_DEL_L_VO1();
-        Result = vo.getCurrentRow().getAttribute("Attribute1").toString();
+        Result = vo.getCurrentRow().getAttribute("BpoId").toString();
         return Result;
     }
 
@@ -607,8 +625,6 @@ public class MainAMImpl extends ApplicationModuleImpl implements MainAM {
                                populatevo.getCurrentRow().getAttribute("SizeInseam"));
                 r.setAttribute("Quantity",
                                populatevo.getCurrentRow().getAttribute("Quantity"));
-
-
                 populatevo.next();
             }
 
@@ -654,6 +670,10 @@ public class MainAMImpl extends ApplicationModuleImpl implements MainAM {
 
     public void save() {
         getDBTransaction().commit();
+        //added by arif 4 march 2021
+        ViewObject voc = getMNJ_ISSUE_REC_WASH_DEL_L_VO1();
+        voc.clearCache();
+        voc.executeQuery();
 //        ViewObject popup = getFillBposVO1();
 //        popup.executeQuery();
         check_rec_qty();

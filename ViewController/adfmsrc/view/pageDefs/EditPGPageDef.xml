@@ -168,6 +168,11 @@
           <Item Value="Unit"/>
           <Item Value="CurrentBpo"/>
           <Item Value="FinishGoodsColor"/>
+          <Item Value="BpoId"/>
+          <Item Value="Bpo"/>
+          <Item Value="WashName"/>
+          <Item Value="LcUnit"/>
+          <Item Value="SystemId"/>
         </AttrNames>
       </nodeDefinition>
     </tree>
@@ -345,10 +350,13 @@
           <Item Value="Attribute6"/>
           <Item Value="Attribute7"/>
           <Item Value="DeliveryDate"/>
-          <Item Value="CurrentStyle"/>
-          <Item Value="CurrentSeason"/>
-          <Item Value="CurrentBpo"/>
-          <Item Value="FinishGoodsColor"/>
+          <Item Value="BpoId"/>
+          <Item Value="BpoNew"/>
+          <Item Value="BuyerNew"/>
+          <Item Value="StyleNew"/>
+          <Item Value="SeasonNew"/>
+          <Item Value="ColorNew"/>
+          <Item Value="WashNew"/>
         </AttrNames>
       </nodeDefinition>
     </tree>

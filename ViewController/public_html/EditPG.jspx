@@ -832,9 +832,47 @@
                           rowSelection="single" id="t6" width="100%"
                           partialTriggers="::cb4 ::cb8 ::commandButton3"
                           binding="#{Main.bpOTable}">
+                  <af:column headerText="BPO Id"
+                             id="c61" align="center" sortable="true"
+                             filterable="true" sortProperty="BpoId">
+                    <af:outputText value="#{row.BpoId}" id="ot18">
+                      <af:convertNumber groupingUsed="false"
+                                        pattern="#{bindings.MNJ_ISSUE_REC_WASH_DEL_L_VO1.hints.BpoId.format}"/>
+                    </af:outputText>
+                  </af:column>
+                  <af:column headerText="BPO"
+                             id="c63" align="center" sortable="true"
+                             filterable="true" sortProperty="BpoNew">
+                    <af:outputText value="#{row.BpoNew}" id="ot19"/>
+                  </af:column>
+                  <af:column headerText="Buyer"
+                             id="c65" filterable="true" sortable="true"
+                             align="center" sortProperty="BuyerNew">
+                    <af:outputText value="#{row.BuyerNew}" id="ot32"/>
+                  </af:column>
+                  <af:column headerText="Style"
+                             id="c72" align="center" sortable="true"
+                             filterable="true" sortProperty="StyleNew">
+                    <af:outputText value="#{row.StyleNew}" id="ot33"/>
+                  </af:column>
+                  <af:column headerText="Season"
+                             id="c86" align="center" sortable="true"
+                             filterable="true" sortProperty="SeasonNew">
+                    <af:outputText value="#{row.SeasonNew}" id="ot35"/>
+                  </af:column>
+                  <af:column headerText="Color"
+                             id="c87" align="center" sortable="true"
+                             filterable="true" sortProperty="ColorNew">
+                    <af:outputText value="#{row.ColorNew}" id="ot36"/>
+                  </af:column>
+                  <af:column headerText="Wash"
+                             id="c89" align="center" sortable="true"
+                             filterable="true" sortProperty="WashNew">
+                    <af:outputText value="#{row.WashNew}" id="ot42"/>
+                  </af:column>
                   <af:column sortProperty="Attribute1" filterable="true"
                              sortable="true" headerText="BPO" id="c58"
-                             align="center" width="140">
+                             align="center" width="140" visible="false">
                     <af:inputListOfValues id="inputListOfValues8"
                                           popupTitle="Search and Select: #{bindings.MNJ_ISSUE_REC_WASH_DEL_L_VO1.hints.Attribute1.label}"
                                           value="#{row.bindings.Attribute1.inputValue}"
@@ -845,29 +883,11 @@
                       <f:validator binding="#{row.bindings.Attribute1.validator}"/>
                     </af:inputListOfValues>
                   </af:column>
-                  <af:column headerText="Current BPO"
-                             id="c89" align="center" sortable="true"
-                             filterable="true" sortProperty="CurrentBpo">
-                    <af:outputText value="#{row.CurrentBpo}" id="ot35"/>
-                  </af:column>
-                  <af:column sortProperty="Attribute2" filterable="true"
-                             sortable="true" headerText="STN" id="c65"
-                             align="center" width="140"
-                             partialTriggers="inputListOfValues8">
-                    <af:inputText value="#{row.bindings.Attribute2.inputValue}"
-                                  label="#{bindings.MNJ_ISSUE_REC_WASH_DEL_L_VO1.hints.Attribute2.label}"
-                                  required="#{bindings.MNJ_ISSUE_REC_WASH_DEL_L_VO1.hints.Attribute2.mandatory}"
-                                  columns="#{bindings.MNJ_ISSUE_REC_WASH_DEL_L_VO1.hints.Attribute2.displayWidth}"
-                                  maximumLength="#{bindings.MNJ_ISSUE_REC_WASH_DEL_L_VO1.hints.Attribute2.precision}"
-                                  shortDesc="#{bindings.MNJ_ISSUE_REC_WASH_DEL_L_VO1.hints.Attribute2.tooltip}"
-                                  id="it39">
-                      <f:validator binding="#{row.bindings.Attribute2.validator}"/>
-                    </af:inputText>
-                  </af:column>
                   <af:column headerText="Buyer" id="c23" align="center"
                              sortable="true" filterable="true"
                              sortProperty="Attribute6"
-                             partialTriggers="inputListOfValues8">
+                             partialTriggers="inputListOfValues8"
+                             visible="false">
                     <af:inputText value="#{row.bindings.Attribute6.inputValue}"
                                   label="#{bindings.MNJ_ISSUE_REC_WASH_DEL_L_VO1.hints.Attribute6.label}"
                                   required="#{bindings.MNJ_ISSUE_REC_WASH_DEL_L_VO1.hints.Attribute6.mandatory}"
@@ -881,7 +901,8 @@
                   <af:column headerText="Style" id="c7" align="center"
                              sortable="true" filterable="true"
                              sortProperty="Attribute5"
-                             partialTriggers="inputListOfValues8">
+                             partialTriggers="inputListOfValues8"
+                             visible="false">
                     <af:inputText value="#{row.bindings.Attribute5.inputValue}"
                                   label="#{bindings.MNJ_ISSUE_REC_WASH_DEL_L_VO1.hints.Attribute5.label}"
                                   required="#{bindings.MNJ_ISSUE_REC_WASH_DEL_L_VO1.hints.Attribute5.mandatory}"
@@ -892,15 +913,11 @@
                       <f:validator binding="#{row.bindings.Attribute5.validator}"/>
                     </af:inputText>
                   </af:column>
-                  <af:column headerText="Current Style"
-                             id="c86" align="center" sortable="true"
-                             filterable="true" sortProperty="CurrentStyle">
-                    <af:outputText value="#{row.CurrentStyle}" id="ot32"/>
-                  </af:column>
                   <af:column sortProperty="Attribute4" filterable="true"
                              sortable="true" headerText="Season" id="c71"
                              align="center" width="107"
-                             partialTriggers="inputListOfValues8">
+                             partialTriggers="inputListOfValues8"
+                             visible="false">
                     <af:inputText value="#{row.bindings.Attribute4.inputValue}"
                                   label="#{bindings.MNJ_ISSUE_REC_WASH_DEL_L_VO1.hints.Attribute4.label}"
                                   required="#{bindings.MNJ_ISSUE_REC_WASH_DEL_L_VO1.hints.Attribute4.mandatory}"
@@ -911,15 +928,11 @@
                       <f:validator binding="#{row.bindings.Attribute4.validator}"/>
                     </af:inputText>
                   </af:column>
-                  <af:column headerText="Current Season"
-                             id="c87" align="center" sortable="true"
-                             filterable="true" sortProperty="CurrentSeason">
-                    <af:outputText value="#{row.CurrentSeason}" id="ot33"/>
-                  </af:column>
                   <af:column sortProperty="Attribute3" filterable="true"
                              sortable="true" headerText="Color" id="c70"
                              align="center" width="105"
-                             partialTriggers="inputListOfValues8">
+                             partialTriggers="inputListOfValues8"
+                             visible="false">
                     <af:inputText value="#{row.bindings.Attribute3.inputValue}"
                                   label="#{bindings.MNJ_ISSUE_REC_WASH_DEL_L_VO1.hints.Attribute3.label}"
                                   required="#{bindings.MNJ_ISSUE_REC_WASH_DEL_L_VO1.hints.Attribute3.mandatory}"
@@ -929,12 +942,6 @@
                                   id="it37">
                       <f:validator binding="#{row.bindings.Attribute3.validator}"/>
                     </af:inputText>
-                  </af:column>
-                  <af:column headerText="Finish Goods Color"
-                             id="c95" align="center" sortable="true"
-                             filterable="true" sortProperty="FinishGoodsColor"
-                             filterFeatures="caseInsensitive">
-                    <af:outputText value="#{row.FinishGoodsColor}" id="ot43"/>
                   </af:column>
                   <af:column sortProperty="Quantity" filterable="true"
                              sortable="true" headerText="Quantity" id="c64"
@@ -1304,105 +1311,71 @@
                                             shortDesc="#{bindings.FillBposVO1.hints.FlagNew.tooltip}"
                                             id="sbc3"/>
                 </af:column>
-                <af:column sortProperty="BpoNo" filterable="true"
-                           sortable="true"
-                           headerText="BPO"
-                           id="c26" align="center"
-                           filterFeatures="caseInsensitive" width="110">
-                  <af:outputText value="#{row.BpoNo}" id="ot8"/>
-                </af:column>
-                <af:column headerText="Current BPO"
-                           id="c90" align="center" sortable="true"
-                           filterable="true" sortProperty="CurrentBpo">
-                  <af:outputText value="#{row.CurrentBpo}" id="ot36"/>
-                </af:column>
-                <af:column headerText="STN"
-                           id="c21" align="center" sortable="true"
-                           filterable="true" sortProperty="StnNumber"
-                           filterFeatures="caseInsensitive" width="105">
-                  <af:outputText value="#{row.StnNumber}" id="ot3"/>
-                </af:column>
-                <af:column headerText="Buyer"
-                           id="c38" sortProperty="Buyer" align="center"
-                           sortable="true" filterable="true"
-                           filterFeatures="caseInsensitive" width="105">
-                  <af:outputText value="#{row.Buyer}" id="ot14"/>
-                </af:column>
-                <af:column headerText="Style"
-                           id="c37" sortProperty="Style" align="center"
-                           sortable="true" filterable="true"
-                           filterFeatures="caseInsensitive" width="105">
-                  <af:outputText value="#{row.Style}" id="ot13"/>
-                </af:column>
-                <af:column headerText="Current Style"
-                           id="c60" filterFeatures="caseInsensitive"
-                           filterable="true" sortable="true" align="center"
-                           sortProperty="CurrentStyle" width="105">
-                  <af:outputText value="#{row.CurrentStyle}" id="ot17"/>
-                </af:column>
-                <af:column headerText="Season"
-                           id="c47" align="center" sortable="true"
-                           filterable="true" sortProperty="Season"
-                           filterFeatures="caseInsensitive" width="105">
-                  <af:outputText value="#{row.Season}" id="ot10"/>
-                </af:column>
-                <af:column headerText="Current Season"
-                           id="c61" filterFeatures="caseInsensitive"
-                           filterable="true" sortable="true" align="center"
-                           sortProperty="CurrentSeason" width="105">
-                  <af:outputText value="#{row.CurrentSeason}" id="ot18"/>
-                </af:column>
-                <af:column sortProperty="Color" filterable="true"
-                           sortable="true"
-                           headerText="Color"
-                           id="c27" align="center"
-                           filterFeatures="caseInsensitive" width="105">
-                  <af:outputText value="#{row.Color}" id="ot5"/>
-                </af:column>
-                <af:column headerText="Finish Goods Color"
-                           id="c94" align="center" sortable="true"
-                           filterable="true" sortProperty="FinishGoodsColor"
-                           filterFeatures="caseInsensitive">
-                  <af:outputText value="#{row.FinishGoodsColor}" id="ot42"/>
-                </af:column>
-                <af:column headerText="Quantity"
-                           id="c17" align="center" sortable="true"
-                           filterable="true" sortProperty="Quantity" width="75"
-                           filterFeatures="caseInsensitive">
-                  <af:outputText value="#{row.Quantity}" id="ot12"/>
-                </af:column>
-                <af:column headerText="Issue Quantity"
-                           id="c63" align="center" sortable="true"
-                           filterable="true" sortProperty="IssueQty" width="77">
-                  <af:inputText value="#{row.bindings.IssueQty.inputValue}"
-                                label="#{bindings.FillBposVO1.hints.IssueQty.label}"
-                                required="#{bindings.FillBposVO1.hints.IssueQty.mandatory}"
-                                columns="#{bindings.FillBposVO1.hints.IssueQty.displayWidth}"
-                                maximumLength="#{bindings.FillBposVO1.hints.IssueQty.precision}"
-                                shortDesc="#{bindings.FillBposVO1.hints.IssueQty.tooltip}"
-                                id="it14" readOnly="true">
-                    <f:validator binding="#{row.bindings.IssueQty.validator}"/>
+                <af:column headerText="Bpo Id"
+                           id="c9" align="center" sortable="true"
+                           filterable="true" sortProperty="BpoId">
+                  <af:outputText value="#{row.BpoId}" id="ot3">
                     <af:convertNumber groupingUsed="false"
-                                      pattern="#{bindings.FillBposVO1.hints.IssueQty.format}"/>
-                  </af:inputText>
+                                      pattern="#{bindings.FillBposVO1.hints.BpoId.format}"/>
+                  </af:outputText>
                 </af:column>
-                <af:column headerText="Unit"
-                           id="c72" align="center" sortable="true"
-                           filterable="true" sortProperty="Unit">
-                  <af:outputText value="#{row.Unit}" id="ot19"/>
+                <af:column headerText="Bpo"
+                           id="c17" align="center" sortable="true"
+                           filterable="true">
+                  <af:outputText value="#{row.Bpo}" id="ot5"/>
+                </af:column>
+                <af:column headerText="#{bindings.FillBposVO1.hints.Season.label}"
+                           id="c21" align="center" sortable="true"
+                           filterable="true">
+                  <af:outputText value="#{row.Season}" id="ot6"/>
+                </af:column>
+                <af:column headerText="#{bindings.FillBposVO1.hints.Style.label}"
+                           id="c26" align="center" sortable="true"
+                           filterable="true">
+                  <af:outputText value="#{row.Style}" id="ot8"/>
+                </af:column>
+                <af:column headerText="#{bindings.FillBposVO1.hints.Color.label}"
+                           id="c27" align="center" sortable="true"
+                           filterable="true">
+                  <af:outputText value="#{row.Color}" id="ot10"/>
+                </af:column>
+                <af:column headerText="#{bindings.FillBposVO1.hints.WashName.label}"
+                           id="c37" align="center" sortable="true"
+                           filterable="true">
+                  <af:outputText value="#{row.WashName}" id="ot12"/>
+                </af:column>
+                <af:column headerText="Lc Unit"
+                           id="c38" align="center" sortable="true"
+                           filterable="false" sortProperty="LcUnit">
+                  <af:outputText value="#{row.LcUnit}" id="ot13">
+                    <af:convertNumber groupingUsed="false"
+                                      pattern="#{bindings.FillBposVO1.hints.LcUnit.format}"/>
+                  </af:outputText>
                 </af:column>
                 <af:column headerText="Production Type"
-                           id="c9" align="center" sortable="true"
-                           filterable="true" sortProperty="ProductionType"
-                           filterFeatures="caseInsensitive" width="107">
-                  <af:outputText value="#{row.ProductionType}" id="ot6"/>
+                           id="c47" align="center" sortable="true"
+                           filterable="true" sortProperty="ProductionType">
+                  <af:outputText value="#{row.ProductionType}" id="ot14"/>
                 </af:column>
-                <af:column headerText="Wash/Unwash"
+                <af:column headerText="Quantity"
                            id="c54" align="center" sortable="true"
-                           filterable="true" width="80"
-                           sortProperty="WashUnwash"
-                           filterFeatures="caseInsensitive">
-                  <af:outputText value="#{row.WashUnwash}" id="ot16"/>
+                           filterable="true" sortProperty="Quantity">
+                  <af:outputText value="#{row.Quantity}" id="ot16"/>
+                </af:column>
+                <af:column headerText="#{bindings.FillBposVO1.hints.IssueQty.label}"
+                           id="c60">
+                  <af:outputText value="#{row.IssueQty}" id="ot17">
+                    <af:convertNumber groupingUsed="false"
+                                      pattern="#{bindings.FillBposVO1.hints.IssueQty.format}"/>
+                  </af:outputText>
+                </af:column>
+                <af:column headerText="System Id"
+                           id="c90" sortProperty="SystemId" align="center"
+                           sortable="true" filterable="true">
+                  <af:outputText value="#{row.SystemId}" id="ot43">
+                    <af:convertNumber groupingUsed="false"
+                                      pattern="#{bindings.FillBposVO1.hints.SystemId.format}"/>
+                  </af:outputText>
                 </af:column>
               </af:table>
             </af:panelCollection>

@@ -173,17 +173,6 @@ public class MNJ_ISSUE_REC_WASH_DEL_L_VORowImpl extends ViewRowImpl {
             }
         }
         ,
-        FinishGoodsColor {
-            public Object get(MNJ_ISSUE_REC_WASH_DEL_L_VORowImpl obj) {
-                return obj.getFinishGoodsColor();
-            }
-
-            public void put(MNJ_ISSUE_REC_WASH_DEL_L_VORowImpl obj,
-                            Object value) {
-                obj.setFinishGoodsColor((String)value);
-            }
-        }
-        ,
         Attribute4 {
             public Object get(MNJ_ISSUE_REC_WASH_DEL_L_VORowImpl obj) {
                 return obj.getAttribute4();
@@ -481,36 +470,91 @@ public class MNJ_ISSUE_REC_WASH_DEL_L_VORowImpl extends ViewRowImpl {
             }
         }
         ,
-        CurrentStyle {
+        BpoId {
             public Object get(MNJ_ISSUE_REC_WASH_DEL_L_VORowImpl obj) {
-                return obj.getCurrentStyle();
+                return obj.getBpoId();
             }
 
             public void put(MNJ_ISSUE_REC_WASH_DEL_L_VORowImpl obj,
                             Object value) {
-                obj.setCurrentStyle((String)value);
+                obj.setBpoId((Number)value);
             }
         }
         ,
-        CurrentSeason {
+        SystemId {
             public Object get(MNJ_ISSUE_REC_WASH_DEL_L_VORowImpl obj) {
-                return obj.getCurrentSeason();
+                return obj.getSystemId();
             }
 
             public void put(MNJ_ISSUE_REC_WASH_DEL_L_VORowImpl obj,
                             Object value) {
-                obj.setCurrentSeason((String)value);
+                obj.setSystemId((Number)value);
             }
         }
         ,
-        CurrentBpo {
+        BuyerNew {
             public Object get(MNJ_ISSUE_REC_WASH_DEL_L_VORowImpl obj) {
-                return obj.getCurrentBpo();
+                return obj.getBuyerNew();
             }
 
             public void put(MNJ_ISSUE_REC_WASH_DEL_L_VORowImpl obj,
                             Object value) {
-                obj.setCurrentBpo((String)value);
+                obj.setBuyerNew((String)value);
+            }
+        }
+        ,
+        SeasonNew {
+            public Object get(MNJ_ISSUE_REC_WASH_DEL_L_VORowImpl obj) {
+                return obj.getSeasonNew();
+            }
+
+            public void put(MNJ_ISSUE_REC_WASH_DEL_L_VORowImpl obj,
+                            Object value) {
+                obj.setSeasonNew((String)value);
+            }
+        }
+        ,
+        StyleNew {
+            public Object get(MNJ_ISSUE_REC_WASH_DEL_L_VORowImpl obj) {
+                return obj.getStyleNew();
+            }
+
+            public void put(MNJ_ISSUE_REC_WASH_DEL_L_VORowImpl obj,
+                            Object value) {
+                obj.setStyleNew((String)value);
+            }
+        }
+        ,
+        ColorNew {
+            public Object get(MNJ_ISSUE_REC_WASH_DEL_L_VORowImpl obj) {
+                return obj.getColorNew();
+            }
+
+            public void put(MNJ_ISSUE_REC_WASH_DEL_L_VORowImpl obj,
+                            Object value) {
+                obj.setColorNew((String)value);
+            }
+        }
+        ,
+        WashNew {
+            public Object get(MNJ_ISSUE_REC_WASH_DEL_L_VORowImpl obj) {
+                return obj.getWashNew();
+            }
+
+            public void put(MNJ_ISSUE_REC_WASH_DEL_L_VORowImpl obj,
+                            Object value) {
+                obj.setWashNew((String)value);
+            }
+        }
+        ,
+        BpoNew {
+            public Object get(MNJ_ISSUE_REC_WASH_DEL_L_VORowImpl obj) {
+                return obj.getBpoNew();
+            }
+
+            public void put(MNJ_ISSUE_REC_WASH_DEL_L_VORowImpl obj,
+                            Object value) {
+                obj.setBpoNew((String)value);
             }
         }
         ,
@@ -601,7 +645,6 @@ public class MNJ_ISSUE_REC_WASH_DEL_L_VORowImpl extends ViewRowImpl {
     public static final int ATTRIBUTE1 = AttributesEnum.Attribute1.index();
     public static final int ATTRIBUTE2 = AttributesEnum.Attribute2.index();
     public static final int ATTRIBUTE3 = AttributesEnum.Attribute3.index();
-    public static final int FINISHGOODSCOLOR = AttributesEnum.FinishGoodsColor.index();
     public static final int ATTRIBUTE4 = AttributesEnum.Attribute4.index();
     public static final int ATTRIBUTE5 = AttributesEnum.Attribute5.index();
     public static final int ATTRIBUTE6 = AttributesEnum.Attribute6.index();
@@ -629,9 +672,14 @@ public class MNJ_ISSUE_REC_WASH_DEL_L_VORowImpl extends ViewRowImpl {
     public static final int WASHEMDPRINTINVORG = AttributesEnum.WashEmdPrintInvorg.index();
     public static final int DELIVERYDATE = AttributesEnum.DeliveryDate.index();
     public static final int BUYERID = AttributesEnum.BuyerId.index();
-    public static final int CURRENTSTYLE = AttributesEnum.CurrentStyle.index();
-    public static final int CURRENTSEASON = AttributesEnum.CurrentSeason.index();
-    public static final int CURRENTBPO = AttributesEnum.CurrentBpo.index();
+    public static final int BPOID = AttributesEnum.BpoId.index();
+    public static final int SYSTEMID = AttributesEnum.SystemId.index();
+    public static final int BUYERNEW = AttributesEnum.BuyerNew.index();
+    public static final int SEASONNEW = AttributesEnum.SeasonNew.index();
+    public static final int STYLENEW = AttributesEnum.StyleNew.index();
+    public static final int COLORNEW = AttributesEnum.ColorNew.index();
+    public static final int WASHNEW = AttributesEnum.WashNew.index();
+    public static final int BPONEW = AttributesEnum.BpoNew.index();
     public static final int MNJ_ISSUEREC_WASH_DEL_SIZE_VO = AttributesEnum.MNJ_ISSUEREC_WASH_DEL_SIZE_VO.index();
     public static final int FILLBPOSVO1 = AttributesEnum.FillBposVO1.index();
     public static final int WASHTYPEVO1 = AttributesEnum.WashTypeVO1.index();
@@ -875,21 +923,6 @@ public class MNJ_ISSUE_REC_WASH_DEL_L_VORowImpl extends ViewRowImpl {
         setAttributeInternal(ATTRIBUTE3, value);
     }
 
-    /**
-     * Gets the attribute value for the calculated attribute FinishGoodsColor.
-     * @return the FinishGoodsColor
-     */
-    public String getFinishGoodsColor() {
-        return (String) getAttributeInternal(FINISHGOODSCOLOR);
-    }
-
-    /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute FinishGoodsColor.
-     * @param value value to set the  FinishGoodsColor
-     */
-    public void setFinishGoodsColor(String value) {
-        setAttributeInternal(FINISHGOODSCOLOR, value);
-    }
 
     /**
      * Gets the attribute value for ATTRIBUTE4 using the alias name Attribute4.
@@ -1323,52 +1356,133 @@ public class MNJ_ISSUE_REC_WASH_DEL_L_VORowImpl extends ViewRowImpl {
         setAttributeInternal(BUYERID, value);
     }
 
+
     /**
-     * Gets the attribute value for the calculated attribute CurrentStyle.
-     * @return the CurrentStyle
+     * Gets the attribute value for BPO_ID using the alias name BpoId.
+     * @return the BPO_ID
      */
-    public String getCurrentStyle() {
-        return (String) getAttributeInternal(CURRENTSTYLE);
+    public Number getBpoId() {
+        return (Number) getAttributeInternal(BPOID);
     }
 
     /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute CurrentStyle.
-     * @param value value to set the  CurrentStyle
+     * Sets <code>value</code> as attribute value for BPO_ID using the alias name BpoId.
+     * @param value value to set the BPO_ID
      */
-    public void setCurrentStyle(String value) {
-        setAttributeInternal(CURRENTSTYLE, value);
+    public void setBpoId(Number value) {
+        setAttributeInternal(BPOID, value);
     }
 
     /**
-     * Gets the attribute value for the calculated attribute CurrentSeason.
-     * @return the CurrentSeason
+     * Gets the attribute value for SYSTEM_ID using the alias name SystemId.
+     * @return the SYSTEM_ID
      */
-    public String getCurrentSeason() {
-        return (String) getAttributeInternal(CURRENTSEASON);
+    public Number getSystemId() {
+        return (Number) getAttributeInternal(SYSTEMID);
     }
 
     /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute CurrentSeason.
-     * @param value value to set the  CurrentSeason
+     * Sets <code>value</code> as attribute value for SYSTEM_ID using the alias name SystemId.
+     * @param value value to set the SYSTEM_ID
      */
-    public void setCurrentSeason(String value) {
-        setAttributeInternal(CURRENTSEASON, value);
+    public void setSystemId(Number value) {
+        setAttributeInternal(SYSTEMID, value);
     }
 
     /**
-     * Gets the attribute value for the calculated attribute CurrentBpo.
-     * @return the CurrentBpo
+     * Gets the attribute value for the calculated attribute BuyerNew.
+     * @return the BuyerNew
      */
-    public String getCurrentBpo() {
-        return (String) getAttributeInternal(CURRENTBPO);
+    public String getBuyerNew() {
+        return (String) getAttributeInternal(BUYERNEW);
     }
 
     /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute CurrentBpo.
-     * @param value value to set the  CurrentBpo
+     * Sets <code>value</code> as the attribute value for the calculated attribute BuyerNew.
+     * @param value value to set the  BuyerNew
      */
-    public void setCurrentBpo(String value) {
-        setAttributeInternal(CURRENTBPO, value);
+    public void setBuyerNew(String value) {
+        setAttributeInternal(BUYERNEW, value);
+    }
+
+    /**
+     * Gets the attribute value for the calculated attribute SeasonNew.
+     * @return the SeasonNew
+     */
+    public String getSeasonNew() {
+        return (String) getAttributeInternal(SEASONNEW);
+    }
+
+    /**
+     * Sets <code>value</code> as the attribute value for the calculated attribute SeasonNew.
+     * @param value value to set the  SeasonNew
+     */
+    public void setSeasonNew(String value) {
+        setAttributeInternal(SEASONNEW, value);
+    }
+
+    /**
+     * Gets the attribute value for the calculated attribute StyleNew.
+     * @return the StyleNew
+     */
+    public String getStyleNew() {
+        return (String) getAttributeInternal(STYLENEW);
+    }
+
+    /**
+     * Sets <code>value</code> as the attribute value for the calculated attribute StyleNew.
+     * @param value value to set the  StyleNew
+     */
+    public void setStyleNew(String value) {
+        setAttributeInternal(STYLENEW, value);
+    }
+
+    /**
+     * Gets the attribute value for the calculated attribute ColorNew.
+     * @return the ColorNew
+     */
+    public String getColorNew() {
+        return (String) getAttributeInternal(COLORNEW);
+    }
+
+    /**
+     * Sets <code>value</code> as the attribute value for the calculated attribute ColorNew.
+     * @param value value to set the  ColorNew
+     */
+    public void setColorNew(String value) {
+        setAttributeInternal(COLORNEW, value);
+    }
+
+    /**
+     * Gets the attribute value for the calculated attribute WashNew.
+     * @return the WashNew
+     */
+    public String getWashNew() {
+        return (String) getAttributeInternal(WASHNEW);
+    }
+
+    /**
+     * Sets <code>value</code> as the attribute value for the calculated attribute WashNew.
+     * @param value value to set the  WashNew
+     */
+    public void setWashNew(String value) {
+        setAttributeInternal(WASHNEW, value);
+    }
+
+    /**
+     * Gets the attribute value for the calculated attribute BpoNew.
+     * @return the BpoNew
+     */
+    public String getBpoNew() {
+        return (String) getAttributeInternal(BPONEW);
+    }
+
+    /**
+     * Sets <code>value</code> as the attribute value for the calculated attribute BpoNew.
+     * @param value value to set the  BpoNew
+     */
+    public void setBpoNew(String value) {
+        setAttributeInternal(BPONEW, value);
     }
 
     /**

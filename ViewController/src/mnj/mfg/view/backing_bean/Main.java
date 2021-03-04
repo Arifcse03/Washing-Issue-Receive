@@ -536,6 +536,7 @@ Double.parseDouble(r.getAttribute("Quantity").toString());
 
     public void save(ActionEvent actionEvent) {
         // Add event code here...
+    
         OperationBinding operationBinding1 = executeOperation("validateIssueRecDate");
         operationBinding1.execute();
         Object result = operationBinding1.getResult();
@@ -544,6 +545,7 @@ Double.parseDouble(r.getAttribute("Quantity").toString());
             if(result.toString().equals("true") ){
                 OperationBinding operationBinding = executeOperation("save");
                 operationBinding.execute();
+                
             }
         }
     }
