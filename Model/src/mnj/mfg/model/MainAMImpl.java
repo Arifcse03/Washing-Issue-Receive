@@ -509,7 +509,7 @@ public class MainAMImpl extends ApplicationModuleImpl implements MainAM {
         int b;
    
         ViewObject populatevo = getPop_VO1(); // Populate VO
-        populatevo.setWhereClause("RECEIVE_NO = '"+receiptChallanNo+"' AND STYLE = '"+receiptStyleName+"' AND SEASON ='"+ receiptSeason +"'");
+        populatevo.setWhereClause("RECEIVE_NO = '"+receiptChallanNo+"' AND STYLE_NEW = '"+receiptStyleName+"' AND SEASON_NEW ='"+ receiptSeason +"'");
         
         populatevo.executeQuery();
       //  populatevo.first();

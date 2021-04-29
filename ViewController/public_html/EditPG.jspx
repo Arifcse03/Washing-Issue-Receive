@@ -1282,7 +1282,7 @@
         <af:popup id="popup3"
                   popupFetchListener="#{Main.editPopupFetchListenerBPO}"
                   popupCanceledListener="#{Main.editPopupCancelListenerBPO}"
-                  contentDelivery="lazy">
+                  contentDelivery="lazyUncached">
           <af:dialog id="dialog3"
                      dialogListener="#{Main.editDialogListShadeBPO}"
                      title="Fill BPOs">
@@ -1321,32 +1321,32 @@
                 </af:column>
                 <af:column headerText="Bpo"
                            id="c17" align="center" sortable="true"
-                           filterable="true">
+                           filterable="true" sortProperty="Bpo">
                   <af:outputText value="#{row.Bpo}" id="ot5"/>
                 </af:column>
-                <af:column headerText="#{bindings.FillBposVO1.hints.Season.label}"
+                <af:column headerText="Season"
                            id="c21" align="center" sortable="true"
-                           filterable="true">
+                           filterable="true" sortProperty="Season">
                   <af:outputText value="#{row.Season}" id="ot6"/>
                 </af:column>
-                <af:column headerText="#{bindings.FillBposVO1.hints.Style.label}"
+                <af:column headerText="Style"
                            id="c26" align="center" sortable="true"
-                           filterable="true">
+                           filterable="true" sortProperty="Style">
                   <af:outputText value="#{row.Style}" id="ot8"/>
                 </af:column>
-                <af:column headerText="#{bindings.FillBposVO1.hints.Color.label}"
+                <af:column headerText="Color"
                            id="c27" align="center" sortable="true"
-                           filterable="true">
+                           filterable="true" sortProperty="Color">
                   <af:outputText value="#{row.Color}" id="ot10"/>
                 </af:column>
-                <af:column headerText="#{bindings.FillBposVO1.hints.WashName.label}"
+                <af:column headerText="Wash Name"
                            id="c37" align="center" sortable="true"
-                           filterable="true">
+                           filterable="true" sortProperty="WashName">
                   <af:outputText value="#{row.WashName}" id="ot12"/>
                 </af:column>
                 <af:column headerText="Lc Unit"
                            id="c38" align="center" sortable="true"
-                           filterable="false" sortProperty="LcUnit">
+                           filterable="true" sortProperty="LcUnit">
                   <af:outputText value="#{row.LcUnit}" id="ot13">
                     <af:convertNumber groupingUsed="false"
                                       pattern="#{bindings.FillBposVO1.hints.LcUnit.format}"/>
